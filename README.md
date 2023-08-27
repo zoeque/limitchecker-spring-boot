@@ -31,5 +31,6 @@ This application is built with the environment bellow;
 ### Architecture
 The architecture of this program is based on Domain driven development model.
 There is only one aggregate model to manage the expiration date.  
-### Aggregate design
-![](./doc/diagram/item_model.puml)  
+### Aggregate pattern
+StoredItem is designed by the given diagrams bellow;
+![](./doc/images/storedItem.png)  

@@ -1,5 +1,5 @@
 @startuml
-package StoredItemAggregate {
+package StoredItemAggregatePattern {
   class StoredItem{
     StoredItemIdentifier identifier
     ItemDetail itemDetail
