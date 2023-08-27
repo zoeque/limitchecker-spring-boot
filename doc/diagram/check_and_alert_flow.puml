@@ -1,0 +1,15 @@
+@startuml
+start;
+:ExpirationAlertDefinitionからItemTypeとAlertDateの組を取得;
+:Map<ItemTypeModel, AlertDate>を初期化;
+:AlertFlagが未報告のItemを取得;
+:Map<ItemTypeModel, AlertDate>を取得;
+if(Item.expiredDate > LocalDateTime.now() - AlertDate)then(yes)
+    :何もしない;
+else (no)
+    :Map<String, Item.expiredDate>を作成し、名前と消費期限の組を作成;
+    :メールを送信;
+    :AlertFlagを報告済に変更;
+end if
+end
+@enduml
