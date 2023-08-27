@@ -61,9 +61,9 @@ public class MailSenderService {
     reference.get().append("以下が対象になります。\r");
 
     event.getItemList().forEach(itemDto -> {
-      reference.get().append(itemDto.getItemName());
+      reference.get().append(itemDto.itemDetail().itemName());
       reference.get().append(" : ");
-      reference.get().append(itemDto.getExpirationDate());
+      reference.get().append(itemDto.itemDetail().expirationDate());
       reference.get().append("\r");
     });
     return reference.get().toString();

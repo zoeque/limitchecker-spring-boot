@@ -11,7 +11,7 @@ import zoeque.limitchecker.domain.entity.factory.StoredItemFactory;
 import zoeque.limitchecker.domain.model.AlertStatusFlag;
 import zoeque.limitchecker.domain.model.NotifyTypeModel;
 import zoeque.limitchecker.domain.repository.IStoredItemRepository;
-import zoeque.limitchecker.application.dto.ItemDto;
+import zoeque.limitchecker.application.dto.record.StoredItemDto;
 
 @Service
 @Slf4j
@@ -28,20 +28,20 @@ public class StoredItemService {
   /**
    * Save item via hibernate
    *
-   * @param itemDto
+   * @param storedItemDto
    */
-  public Try<ItemDto> create(ItemDto itemDto) {
+  public Try<StoredItemDto> create(StoredItemDto storedItemDto) {
     try {
       StoredItem storedItem = storedItemFactory.createStoredItem(
               storedItemFactory.createStoredItemIdentifier(UUID.randomUUID().toString()).get(),
-              storedItemFactory.createItemDetail(itemDto.getItemName(),
-                      itemDto.getItemType(),
-                      itemDto.getExpirationDate()).get(),
+              storedItemFactory.createItemDetail(storedItemDto.getItemDetail().getItemName(),
+                      storedItemDto.getItemDetail().getItemTypeModel(),
+                      storedItemDto.getItemDetail().getExpirationDate().getDate()).get(),
               AlertStatusFlag.NOT_REPORTED);
       storedItemRepository.save(storedItem);
-      return Try.success(itemDto);
+      return Try.success(storedItemDto);
     } catch (Exception e) {
-      log.warn("Failed to create Item : {}", itemDto.getItemName());
+      log.warn("Failed to create Item : {}", storedItemDto.getItemDetail().getItemName());
       return Try.failure(e);
     }
   }
@@ -54,7 +54,7 @@ public class StoredItemService {
   @EventListener
   public void updateItemStatusToReported(NotifyEvent event) {
     if (event.getNotifyTypeModel() == NotifyTypeModel.WARN) {
-      event.getItemList().forEach(itemDto -> {
+      event.getItemList().forEach(storedItemDto -> {
         // TODO ここで報告状態の更新を行う
       });
     }
