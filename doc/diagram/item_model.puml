@@ -1,0 +1,36 @@
+@startuml
+package StoredItemAggregate {
+  class StoredItem{
+    StoredItemIdentifier identifier
+    ItemDetail itemDetail
+  }
+  class StoredItemIdentifier {
+    String identifier
+  }
+  class ItemDetail {
+    ItemType itemType
+    ItemName itemName
+    ExpiredDate expiredDate
+  }
+
+  class ItemType {
+    ItemTypeModel itemTypeModel
+    AlertDefinition alertDefinition
+  }
+  class AlertDefinition {
+    Integer expiredDate
+  }
+  class ItemName {
+    String itemName
+  }
+  class ExpiredDate {
+    LocalDateTime expiredDate
+  }
+}
+StoredItem o-- StoredItemIdentifier
+StoredItem o-- ItemDetail
+ItemDetail o-- ItemName
+ItemDetail o-- ItemType
+ItemDetail o-- ExpiredDate
+ItemType o-- AlertDefinition
+@enduml
