@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import zoeque.limitchecker.domain.model.NotifyTypeModel;
-import zoeque.limitchecker.application.dto.ItemDto;
+import zoeque.limitchecker.application.dto.record.StoredItemDto;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class NotifyEvent {
   @NonNull
-  List<ItemDto> itemList;
+  List<StoredItemDto> itemList;
   @NonNull
   NotifyTypeModel notifyTypeModel;
 }

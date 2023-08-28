@@ -10,6 +10,11 @@ import zoeque.limitchecker.domain.entity.valueobject.ItemDetail;
 import zoeque.limitchecker.domain.entity.valueobject.StoredItemIdentifier;
 import zoeque.limitchecker.domain.model.AlertStatusFlag;
 
+/**
+ * StoredItem is an entity of the food item.
+ * {@link AlertStatusFlag} is a variable status about reporting the item.
+ * Other fields perform as a value object.
+ */
 @Entity
 @Slf4j
 @Getter

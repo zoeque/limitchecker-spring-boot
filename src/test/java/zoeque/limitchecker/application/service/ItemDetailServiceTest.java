@@ -9,7 +9,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import zoeque.limitchecker.application.dto.ItemDto;
+import zoeque.limitchecker.application.dto.record.ExpirationDateDto;
+import zoeque.limitchecker.application.dto.record.ItemDetailDto;
+import zoeque.limitchecker.application.dto.record.StoredItemDto;
 import zoeque.limitchecker.domain.model.ItemTypeModel;
 import zoeque.limitchecker.testtool.DatabaseDropService;
 
@@ -28,8 +30,9 @@ public class ItemDetailServiceTest {
 
   @Test
   public void createNewItem_thenReturnSuccess() {
-    ItemDto item = new ItemDto("test", ItemTypeModel.OTHERS, LocalDateTime.now());
-    Try<ItemDto> itemDtoTry = storedItemService.create(item);
+    StoredItemDto item = new StoredItemDto(new ItemDetailDto("test",
+            ItemTypeModel.OTHERS, new ExpirationDateDto(LocalDateTime.now())));
+    Try<StoredItemDto> itemDtoTry = storedItemService.create(item);
     Assertions.assertTrue(itemDtoTry.isSuccess());
   }
 }

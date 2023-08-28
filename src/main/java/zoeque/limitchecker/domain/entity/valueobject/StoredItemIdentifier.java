@@ -6,9 +6,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import zoeque.limitchecker.domain.entity.StoredItem;
 
 /**
- * Identifier for item
+ * Identifier for {@link StoredItem}.
  */
 @Getter
 @Setter(AccessLevel.PROTECTED)
@@ -16,7 +17,6 @@ import lombok.Setter;
 @Embeddable
 public class StoredItemIdentifier {
   String identifier;
-
   public StoredItemIdentifier(String identifier) {
     setIdentifier(identifier);
   }
