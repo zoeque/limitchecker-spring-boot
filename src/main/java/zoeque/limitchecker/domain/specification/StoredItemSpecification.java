@@ -9,17 +9,21 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-import zoeque.limitchecker.domain.entity.StoredItem;
 import zoeque.limitchecker.domain.entity.StoredItem_;
 import zoeque.limitchecker.domain.entity.valueobject.AlertDefinition;
 import zoeque.limitchecker.domain.entity.valueobject.ExpirationDate_;
-import zoeque.limitchecker.domain.entity.valueobject.ItemDetail;
 import zoeque.limitchecker.domain.entity.valueobject.ItemDetail_;
 import zoeque.limitchecker.domain.model.AlertStatusFlag;
 
+/**
+ * The specification class for {@link zoeque.limitchecker.domain.entity.StoredItem}.
+ * The query process can be called by findAll method on
+ * {@link zoeque.limitchecker.domain.repository.IStoredItemRepository}.
+ *
+ * @param <StoredItem> Items to be managed.
+ */
 @Component
 public class StoredItemSpecification<StoredItem> {
-
   /**
    * Find the items that has been expired.
    * Items are returned as Expired items and must be notified to the user.
