@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Getter
 @AllArgsConstructor
-public class NotifyEvent {
+public class MailNotificationEvent {
   @NonNull
   List<StoredItemDto> itemList;
   @NonNull
