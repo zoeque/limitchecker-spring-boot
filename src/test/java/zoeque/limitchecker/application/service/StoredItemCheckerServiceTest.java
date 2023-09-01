@@ -59,4 +59,22 @@ public class StoredItemCheckerServiceTest {
     Assertions.assertTrue(warnedItemTry.isSuccess());
     Assertions.assertEquals(2, warnedItemTry.get().size());
   }
+
+  @Test
+  public void whenSaveTwoExpiredItems_withDifferentTypes_foundTwoItemsInDb() {
+    StoredItemCheckerService service = new StoredItemCheckerService(repository, specification, publisher);
+    StoredItem storedItem1 = factory.createStoredItem(factory.createStoredItemIdentifier("test1").get(),
+            factory.createItemDetail("test1", ItemTypeModel.EGG, LocalDateTime.now().minusDays(1)).get(),
+            AlertStatusFlag.NOT_REPORTED);
+    StoredItem storedItem2 = factory.createStoredItem(factory.createStoredItemIdentifier("test2").get(),
+            factory.createItemDetail("test2", ItemTypeModel.SNACK, LocalDateTime.now().minusDays(1)).get(),
+            AlertStatusFlag.NOT_REPORTED);
+
+    repository.save(storedItem1);
+    repository.save(storedItem2);
+
+    Try<List<StoredItem>> warnedItemTry = service.findExpiredItem();
+    Assertions.assertTrue(warnedItemTry.isSuccess());
+    Assertions.assertEquals(2, warnedItemTry.get().size());
+  }
 }

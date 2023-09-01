@@ -72,7 +72,7 @@ public class StoredItemCheckerService {
       // validate all type of the item
       for (ItemTypeModel model : ItemTypeModel.values()) {
         List<StoredItem> itemList
-                = repository.findAll(specification.warnedItem(model.getExpirationDate()));
+                = repository.findAll(specification.warnedItem(model));
         if (!itemList.isEmpty()) {
           // add item to list for notification if the warned item exists
           warnedItemList.addAll(itemList);

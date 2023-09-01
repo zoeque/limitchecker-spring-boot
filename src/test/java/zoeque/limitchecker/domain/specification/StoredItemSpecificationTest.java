@@ -42,7 +42,7 @@ public class StoredItemSpecificationTest {
             AlertStatusFlag.NOT_REPORTED);
     repository.save(storedItem);
     List<StoredItem> items = repository.findAll(
-            specification.warnedItem(ItemTypeModel.EGG.getExpirationDate()));
+            specification.warnedItem(ItemTypeModel.EGG));
 
     Assertions.assertEquals(1, items.size());
   }
