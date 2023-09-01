@@ -7,7 +7,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import zoeque.limitchecker.domain.model.NotifyTypeModel;
-import zoeque.limitchecker.application.event.NotifyEvent;
+import zoeque.limitchecker.application.event.MailNotificationEvent;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -26,7 +26,7 @@ public class MailSenderService {
 
 
   @EventListener
-  public void sendMail(NotifyEvent event) {
+  public void sendMail(MailNotificationEvent event) {
     sendMailToUser(buildSubject(event), buildMessage(event));
   }
 
@@ -50,7 +50,7 @@ public class MailSenderService {
     }
   }
 
-  private String buildMessage(NotifyEvent event) {
+  private String buildMessage(MailNotificationEvent event) {
     AtomicReference<StringBuilder> reference = new AtomicReference<>();
     reference.get().append("消費期限管理アプリケーションより");
     if (event.getNotifyTypeModel() == NotifyTypeModel.WARN) {
@@ -69,7 +69,7 @@ public class MailSenderService {
     return reference.get().toString();
   }
 
-  private String buildSubject(NotifyEvent event) {
+  private String buildSubject(MailNotificationEvent event) {
     return event.getNotifyTypeModel() == NotifyTypeModel.WARN ? "【注意】消費期限間近なものがあります。"
             : "【警告】消費期限が経過したものがあります。";
   }

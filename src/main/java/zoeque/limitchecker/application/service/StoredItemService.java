@@ -5,7 +5,7 @@ import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
-import zoeque.limitchecker.application.event.NotifyEvent;
+import zoeque.limitchecker.application.event.MailNotificationEvent;
 import zoeque.limitchecker.domain.entity.StoredItem;
 import zoeque.limitchecker.domain.entity.factory.StoredItemFactory;
 import zoeque.limitchecker.domain.model.AlertStatusFlag;
@@ -36,7 +36,7 @@ public class StoredItemService {
               storedItemFactory.createStoredItemIdentifier(UUID.randomUUID().toString()).get(),
               storedItemFactory.createItemDetail(storedItemDto.getItemDetail().getItemName(),
                       storedItemDto.getItemDetail().getItemTypeModel(),
-                      storedItemDto.getItemDetail().getExpirationDate().getDate()).get(),
+                      storedItemDto.getItemDetail().getExpirationDate()).get(),
               AlertStatusFlag.NOT_REPORTED);
       storedItemRepository.save(storedItem);
       return Try.success(storedItemDto);
@@ -52,7 +52,7 @@ public class StoredItemService {
    * @param event items that is needed to update
    */
   @EventListener
-  public void updateItemStatusToReported(NotifyEvent event) {
+  public void updateItemStatusToReported(MailNotificationEvent event) {
     if (event.getNotifyTypeModel() == NotifyTypeModel.WARN) {
       event.getItemList().forEach(storedItemDto -> {
         // TODO ここで報告状態の更新を行う

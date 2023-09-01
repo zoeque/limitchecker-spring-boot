@@ -1,13 +1,14 @@
 package zoeque.limitchecker.application.dto.record;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.time.LocalDateTime;
 import zoeque.limitchecker.application.dto.IItemDetailDto;
 import zoeque.limitchecker.domain.model.ItemTypeModel;
 
 @JsonDeserialize
 public record ItemDetailDto(String itemName,
                             ItemTypeModel itemTypeModel,
-                            ExpirationDateDto expirationDate)
+                            LocalDateTime expirationDate)
         implements IItemDetailDto {
   public String getItemName() {
     return this.itemName;
@@ -17,7 +18,7 @@ public record ItemDetailDto(String itemName,
     return this.itemTypeModel;
   }
 
-  public ExpirationDateDto getExpirationDate() {
+  public LocalDateTime getExpirationDate() {
     return this.expirationDate;
   }
 }

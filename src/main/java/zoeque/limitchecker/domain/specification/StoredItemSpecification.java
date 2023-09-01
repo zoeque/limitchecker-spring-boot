@@ -13,7 +13,9 @@ import zoeque.limitchecker.domain.entity.StoredItem_;
 import zoeque.limitchecker.domain.entity.valueobject.AlertDefinition;
 import zoeque.limitchecker.domain.entity.valueobject.ExpirationDate_;
 import zoeque.limitchecker.domain.entity.valueobject.ItemDetail_;
+import zoeque.limitchecker.domain.entity.valueobject.ItemType_;
 import zoeque.limitchecker.domain.model.AlertStatusFlag;
+import zoeque.limitchecker.domain.model.ItemTypeModel;
 
 /**
  * The specification class for {@link zoeque.limitchecker.domain.entity.StoredItem}.
@@ -41,26 +43,32 @@ public class StoredItemSpecification<StoredItem> {
 
   /**
    * Find the item that has specified the condition,
-   * (expiration date) - (alert definition date) < Today.
+   * (expiration date) > Today - (alert definition date).
    * Items are returned as warned items.
    * This method does not find the item which has an REPORTED state
    * of {@link AlertStatusFlag}.
    *
-   * @param alertDefinitionDate The value defined in {@link AlertDefinition}
+   * @param model The target {@link ItemTypeModel} to validate.
    * @return {@link StoredItem} with full specified the condition.
    */
-  public Specification<StoredItem> warnedItem(Integer alertDefinitionDate) {
+  public Specification<StoredItem> warnedItem(ItemTypeModel model) {
     return new Specification<StoredItem>() {
       @Override
       public Predicate toPredicate(Root<StoredItem> root, CriteriaQuery<?> query,
                                    CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = new ArrayList<>();
+
+        // WHERE expiration_date > :today - alert definition date
         predicates.add(criteriaBuilder.greaterThan(root.get(StoredItem_.ITEM_DETAIL)
                         .get(ItemDetail_.EXPIRATION_DATE)
                         .get(ExpirationDate_.DATE),
-                LocalDateTime.now().minusDays(alertDefinitionDate)));
+                LocalDateTime.now().minusDays(model.getExpirationDate())));
+        // AND alert_status_flag = NOT_REPORTED (not to include reported items)
         predicates.add(criteriaBuilder.equal(root.get(StoredItem_.ALERT_STATUS_FLAG),
                 AlertStatusFlag.NOT_REPORTED));
+        // AND item_type = :model
+        predicates.add(criteriaBuilder.equal(root.get(StoredItem_.ITEM_DETAIL)
+                .get(ItemDetail_.ITEM_TYPE).get(ItemType_.MODEL), model));
         return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
       }
     };

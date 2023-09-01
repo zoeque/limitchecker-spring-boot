@@ -28,7 +28,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.h2database:h2:2.2.220'
 	annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.hibernate:hibernate-jpamodelgen:6.1.7.Final'
 
