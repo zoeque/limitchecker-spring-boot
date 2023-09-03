@@ -1,11 +1,16 @@
 package zoeque.limitchecker.application.service;
 
+import io.micrometer.common.util.StringUtils;
+import io.vavr.control.Try;
 import jakarta.mail.internet.MimeMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+import zoeque.limitchecker.application.dto.record.StoredItemDto;
 import zoeque.limitchecker.domain.model.NotifyTypeModel;
 import zoeque.limitchecker.application.event.MailNotificationEvent;
 
@@ -15,38 +20,52 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Class to send e-mail
  */
+@Slf4j
+@Service
 public class MailSenderService {
-
-  @Value("${mail.address.to:null}")
   String toMailAddress;
-  @Value("${mail.address.from:null}")
   String fromMailAddress;
-  @Autowired(required = true)
   JavaMailSender javaMailSender;
 
+  public MailSenderService(@Value("${mail.address.to:null}") String toMailAddress,
+                           @Value("${mail.address.from:null}") String fromMailAddress,
+                           JavaMailSender javaMailSender) {
+    this.toMailAddress = toMailAddress;
+    this.fromMailAddress = fromMailAddress;
+    this.javaMailSender = javaMailSender;
+  }
 
+  /**
+   * The event listener for {@link MailNotificationEvent}.
+   *
+   * @param event with a list of {@link StoredItemDto} and its level
+   *              described as {@link NotifyTypeModel}.
+   */
   @EventListener
   public void sendMail(MailNotificationEvent event) {
+    if (StringUtils.isEmpty(toMailAddress) || StringUtils.isEmpty(fromMailAddress)) {
+      log.error("The mail address must not be null!! Failed to send email!!");
+      return;
+    }
     sendMailToUser(buildSubject(event), buildMessage(event));
   }
 
   /**
    * Send e-mail with full parameter in application.properties
    */
-  public void sendMailToUser(String subject, String messageContent) {
+  protected Try<String> sendMailToUser(String subject,
+                                       String messageContent) {
     MimeMessage message = javaMailSender.createMimeMessage();
     try {
       MimeMessageHelper helper = new MimeMessageHelper(message, true);
-      if (toMailAddress == null || fromMailAddress == null) {
-        throw new IllegalArgumentException("Mail address must not be null");
-      }
       helper.setFrom(fromMailAddress);
       helper.setTo(toMailAddress);
       helper.setSubject(subject);
       helper.setText(messageContent);
       javaMailSender.send(message);
+      return Try.success(messageContent);
     } catch (Exception e) {
-      // TODO Exception handling
+      return Try.failure(e);
     }
   }
 
