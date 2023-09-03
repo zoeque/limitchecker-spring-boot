@@ -8,18 +8,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import zoeque.limitchecker.domain.entity.StoredItem;
 import zoeque.limitchecker.domain.entity.factory.StoredItemFactory;
-import zoeque.limitchecker.domain.entity.valueobject.*;
 import zoeque.limitchecker.domain.model.AlertStatusFlag;
 import zoeque.limitchecker.domain.model.ItemTypeModel;
-import zoeque.limitchecker.domain.repository.IStoredItemRepository;
+import zoeque.limitchecker.domain.repository.StoredItemRepositoryImpl;
 import zoeque.limitchecker.domain.specification.StoredItemSpecification;
 import zoeque.limitchecker.testtool.DatabaseDropService;
 
@@ -27,7 +24,7 @@ import zoeque.limitchecker.testtool.DatabaseDropService;
 @ExtendWith(SpringExtension.class)
 public class StoredItemCheckerServiceTest {
   @Autowired
-  IStoredItemRepository repository;
+  StoredItemRepositoryImpl repository;
   @Autowired
   DatabaseDropService databaseDropService;
   @Autowired

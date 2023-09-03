@@ -1,16 +1,16 @@
 package zoeque.limitchecker.testtool;
 
 import org.springframework.stereotype.Service;
-import zoeque.limitchecker.domain.repository.IStoredItemRepository;
+import zoeque.limitchecker.domain.repository.StoredItemRepositoryImpl;
 
 /**
  * The service class to drop the all data in H2DB.
  */
 @Service
 public class DatabaseDropService {
-  IStoredItemRepository repository;
+  StoredItemRepositoryImpl repository;
 
-  public DatabaseDropService(IStoredItemRepository repository) {
+  public DatabaseDropService(StoredItemRepositoryImpl repository) {
     this.repository = repository;
   }
 

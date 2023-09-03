@@ -10,16 +10,16 @@ import zoeque.limitchecker.domain.entity.StoredItem;
 import zoeque.limitchecker.domain.entity.factory.StoredItemFactory;
 import zoeque.limitchecker.domain.model.AlertStatusFlag;
 import zoeque.limitchecker.domain.model.NotifyTypeModel;
-import zoeque.limitchecker.domain.repository.IStoredItemRepository;
+import zoeque.limitchecker.domain.repository.StoredItemRepositoryImpl;
 import zoeque.limitchecker.application.dto.record.StoredItemDto;
 
 @Service
 @Slf4j
 public class StoredItemService {
-  IStoredItemRepository storedItemRepository;
+  StoredItemRepositoryImpl storedItemRepository;
   StoredItemFactory storedItemFactory;
 
-  public StoredItemService(IStoredItemRepository storedItemRepository,
+  public StoredItemService(StoredItemRepositoryImpl storedItemRepository,
                            StoredItemFactory storedItemFactory) {
     this.storedItemRepository = storedItemRepository;
     this.storedItemFactory = storedItemFactory;
