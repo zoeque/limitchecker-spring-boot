@@ -2,7 +2,6 @@ package zoeque.limitchecker.domain.specification;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,7 @@ import zoeque.limitchecker.domain.entity.StoredItem;
 import zoeque.limitchecker.domain.entity.factory.StoredItemFactory;
 import zoeque.limitchecker.domain.model.AlertStatusFlag;
 import zoeque.limitchecker.domain.model.ItemTypeModel;
-import zoeque.limitchecker.domain.repository.IStoredItemRepository;
+import zoeque.limitchecker.domain.repository.StoredItemRepositoryImpl;
 import zoeque.limitchecker.testtool.DatabaseDropService;
 
 @SpringBootTest
@@ -23,7 +22,7 @@ public class StoredItemSpecificationTest {
   @Autowired
   DatabaseDropService databaseDropService;
   @Autowired
-  IStoredItemRepository repository;
+  StoredItemRepositoryImpl repository;
   @Autowired
   StoredItemFactory factory;
   @Autowired

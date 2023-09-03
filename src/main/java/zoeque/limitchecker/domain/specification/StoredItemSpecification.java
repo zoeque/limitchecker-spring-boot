@@ -10,17 +10,17 @@ import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import zoeque.limitchecker.domain.entity.StoredItem_;
-import zoeque.limitchecker.domain.entity.valueobject.AlertDefinition;
 import zoeque.limitchecker.domain.entity.valueobject.ExpirationDate_;
 import zoeque.limitchecker.domain.entity.valueobject.ItemDetail_;
 import zoeque.limitchecker.domain.entity.valueobject.ItemType_;
 import zoeque.limitchecker.domain.model.AlertStatusFlag;
 import zoeque.limitchecker.domain.model.ItemTypeModel;
+import zoeque.limitchecker.domain.repository.StoredItemRepositoryImpl;
 
 /**
  * The specification class for {@link zoeque.limitchecker.domain.entity.StoredItem}.
  * The query process can be called by findAll method on
- * {@link zoeque.limitchecker.domain.repository.IStoredItemRepository}.
+ * {@link StoredItemRepositoryImpl}.
  *
  * @param <StoredItem> Items to be managed.
  */
