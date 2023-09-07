@@ -1,10 +1,9 @@
-package zoeque.limitchecker.application.service;
+package zoeque.limitchecker.application.service.mailer;
 
 import io.micrometer.common.util.StringUtils;
 import io.vavr.control.Try;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,15 +20,14 @@ import java.util.concurrent.atomic.AtomicReference;
  * Class to send e-mail
  */
 @Slf4j
-@Service
-public class MailSenderService {
-  String toMailAddress;
-  String fromMailAddress;
+public abstract class AbstractMailSenderService {
+  protected String toMailAddress;
+  protected String fromMailAddress;
   JavaMailSender javaMailSender;
 
-  public MailSenderService(@Value("${mail.address.to:null}") String toMailAddress,
-                           @Value("${mail.address.from:null}") String fromMailAddress,
-                           JavaMailSender javaMailSender) {
+  public AbstractMailSenderService(@Value("${mail.address.to:null}") String toMailAddress,
+                                   @Value("${mail.address.from:null}") String fromMailAddress,
+                                   JavaMailSender javaMailSender) {
     this.toMailAddress = toMailAddress;
     this.fromMailAddress = fromMailAddress;
     this.javaMailSender = javaMailSender;

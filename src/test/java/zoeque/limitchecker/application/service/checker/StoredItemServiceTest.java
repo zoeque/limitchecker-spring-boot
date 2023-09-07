@@ -1,4 +1,4 @@
-package zoeque.limitchecker.application.service;
+package zoeque.limitchecker.application.service.checker;
 
 import io.vavr.control.Try;
 import java.time.LocalDateTime;
@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import zoeque.limitchecker.application.dto.record.ItemDetailDto;
 import zoeque.limitchecker.application.dto.record.StoredItemDto;
+import zoeque.limitchecker.application.service.checker.StoredItemService;
 import zoeque.limitchecker.domain.model.ItemTypeModel;
 import zoeque.limitchecker.testtool.DatabaseDropService;
 

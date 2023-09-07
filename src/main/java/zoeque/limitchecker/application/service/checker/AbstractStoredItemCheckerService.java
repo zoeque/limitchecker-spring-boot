@@ -1,4 +1,4 @@
-package zoeque.limitchecker.application.service;
+package zoeque.limitchecker.application.service.checker;
 
 import io.vavr.control.Try;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import zoeque.limitchecker.application.dto.record.ItemDetailDto;
 import zoeque.limitchecker.application.dto.record.StoredItemDto;
 import zoeque.limitchecker.application.event.MailNotificationEvent;
-import zoeque.limitchecker.configuration.ConstantModel;
+import zoeque.limitchecker.application.service.mailer.AbstractMailSenderService;
 import zoeque.limitchecker.domain.entity.StoredItem;
 import zoeque.limitchecker.domain.model.ItemTypeModel;
 import zoeque.limitchecker.domain.repository.StoredItemRepositoryImpl;
@@ -36,7 +36,7 @@ public abstract class AbstractStoredItemCheckerService {
   /**
    * The scheduled task to validate saved items in Database.
    * If expired items or warned items are found, publish {@link MailNotificationEvent}
-   * to the {@link MailSenderService} to send e-mail to notify the caution.
+   * to the {@link AbstractMailSenderService} to send e-mail to notify the caution.
    */
   protected void execute() {
     Try<List<StoredItem>> warnedItemTry = findWarnedItem();

@@ -1,4 +1,4 @@
-package zoeque.limitchecker.application.service;
+package zoeque.limitchecker.application.service.checker;
 
 import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
