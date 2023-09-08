@@ -12,8 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
-import zoeque.limitchecker.application.service.mailer.AbstractMailSenderService;
-import zoeque.limitchecker.application.service.mailer.MailSenderService;
+import zoeque.limitchecker.configuration.mail.MailServiceCollector;
+import zoeque.limitchecker.domain.model.MailServiceProviderModel;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -23,11 +23,14 @@ public class MailSenderServiceTest {
   JavaMailSender mockMailSender;
   @Autowired
   MailSenderService autowiredMailSenderService;
+  @Autowired
+  MailServiceCollector collector;
 
   @Test
   public void givenMockMailServiceAndMail_thenSendSuccess() {
     AbstractMailSenderService service
-            = new MailSenderService("foo", "bar", mockMailSender);
+            = new MailSenderService("foo", "bar", MailServiceProviderModel.OTHERS,
+            collector, mockMailSender);
     MimeMessage dummyMessage = new MimeMessage((Session) null);
     when(mockMailSender.createMimeMessage()).thenReturn(dummyMessage);
     Try<String> sendTry = service.sendMailToUser("test", "test");

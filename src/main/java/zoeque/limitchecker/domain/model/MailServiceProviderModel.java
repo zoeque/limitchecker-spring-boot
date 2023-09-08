@@ -1,4 +1,4 @@
-package zoeque.limitchecker.configuration;
+package zoeque.limitchecker.domain.model;
 
 import lombok.Getter;
 

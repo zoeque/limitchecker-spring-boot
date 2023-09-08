@@ -1,10 +1,10 @@
 package zoeque.limitchecker.application.service.mailer;
 
 import org.springframework.stereotype.Service;
-import zoeque.limitchecker.configuration.MailService;
-import zoeque.limitchecker.configuration.MailServiceProviderModel;
+import zoeque.limitchecker.domain.model.MailService;
+import zoeque.limitchecker.domain.model.MailServiceProviderModel;
 
 @Service
-@MailService(v = MailServiceProviderModel.GMAIL)
+@MailService(MailServiceProviderModel.GMAIL)
 public class GmailSenderService {
 }

@@ -15,12 +15,12 @@ import zoeque.limitchecker.domain.entity.valueobject.ItemDetail_;
 import zoeque.limitchecker.domain.entity.valueobject.ItemType_;
 import zoeque.limitchecker.domain.model.AlertStatusFlag;
 import zoeque.limitchecker.domain.model.ItemTypeModel;
-import zoeque.limitchecker.domain.repository.StoredItemRepositoryImpl;
+import zoeque.limitchecker.domain.repository.IStoredItemRepository;
 
 /**
  * The specification class for {@link zoeque.limitchecker.domain.entity.StoredItem}.
  * The query process can be called by findAll method on
- * {@link StoredItemRepositoryImpl}.
+ * {@link IStoredItemRepository}.
  *
  * @param <StoredItem> Items to be managed.
  */

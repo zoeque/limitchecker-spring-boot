@@ -12,7 +12,7 @@ import zoeque.limitchecker.application.event.MailNotificationEvent;
 import zoeque.limitchecker.application.service.mailer.AbstractMailSenderService;
 import zoeque.limitchecker.domain.entity.StoredItem;
 import zoeque.limitchecker.domain.model.ItemTypeModel;
-import zoeque.limitchecker.domain.repository.StoredItemRepositoryImpl;
+import zoeque.limitchecker.domain.repository.IStoredItemRepository;
 import zoeque.limitchecker.domain.specification.StoredItemSpecification;
 
 /**
@@ -21,13 +21,13 @@ import zoeque.limitchecker.domain.specification.StoredItemSpecification;
  */
 @Slf4j
 public abstract class AbstractStoredItemCheckerService {
-  StoredItemRepositoryImpl repository;
+  IStoredItemRepository repository;
   StoredItemSpecification<StoredItem> specification;
   ApplicationEventPublisher publisher;
 
-  public AbstractStoredItemCheckerService(StoredItemRepositoryImpl repository,
-                                  StoredItemSpecification<StoredItem> specification,
-                                  ApplicationEventPublisher publisher) {
+  public AbstractStoredItemCheckerService(IStoredItemRepository repository,
+                                          StoredItemSpecification<StoredItem> specification,
+                                          ApplicationEventPublisher publisher) {
     this.repository = repository;
     this.specification = specification;
     this.publisher = publisher;
