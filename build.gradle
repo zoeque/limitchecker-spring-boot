@@ -36,6 +36,8 @@ dependencies {
 	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
 
 	implementation 'io.vavr:vavr:0.10.3'
+
+	implementation 'com.google.apis:google-api-services-gmail:v1-rev110-1.25.0'
 }
 
 tasks.named('test') {

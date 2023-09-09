@@ -1,4 +1,4 @@
-package zoeque.limitchecker.application.service;
+package zoeque.limitchecker.application.service.checker;
 
 import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import zoeque.limitchecker.configuration.ConstantModel;
 import zoeque.limitchecker.domain.entity.StoredItem;
-import zoeque.limitchecker.domain.repository.StoredItemRepositoryImpl;
+import zoeque.limitchecker.domain.repository.IStoredItemRepository;
 import zoeque.limitchecker.domain.specification.StoredItemSpecification;
 
 /**
@@ -18,7 +18,7 @@ import zoeque.limitchecker.domain.specification.StoredItemSpecification;
 @Service
 public class StoredItemCheckerService
         extends AbstractStoredItemCheckerService {
-  public StoredItemCheckerService(StoredItemRepositoryImpl repository,
+  public StoredItemCheckerService(IStoredItemRepository repository,
                                   StoredItemSpecification<StoredItem> specification,
                                   ApplicationEventPublisher publisher) {
     super(repository, specification, publisher);

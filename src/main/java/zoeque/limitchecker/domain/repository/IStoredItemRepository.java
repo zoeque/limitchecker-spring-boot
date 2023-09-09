@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import zoeque.limitchecker.domain.entity.StoredItem;
 
 @Repository
-public interface StoredItemRepositoryImpl
+public interface IStoredItemRepository
         extends JpaRepository<StoredItem, String>,
         JpaSpecificationExecutor<StoredItem> {
   List<StoredItem> findAll(Specification<StoredItem> spec);

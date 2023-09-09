@@ -1,4 +1,4 @@
-package zoeque.limitchecker.application.service;
+package zoeque.limitchecker.application.service.checker;
 
 import io.vavr.control.Try;
 import java.util.UUID;
@@ -10,16 +10,16 @@ import zoeque.limitchecker.domain.entity.StoredItem;
 import zoeque.limitchecker.domain.entity.factory.StoredItemFactory;
 import zoeque.limitchecker.domain.model.AlertStatusFlag;
 import zoeque.limitchecker.domain.model.NotifyTypeModel;
-import zoeque.limitchecker.domain.repository.StoredItemRepositoryImpl;
+import zoeque.limitchecker.domain.repository.IStoredItemRepository;
 import zoeque.limitchecker.application.dto.record.StoredItemDto;
 
 @Service
 @Slf4j
 public class StoredItemService {
-  StoredItemRepositoryImpl storedItemRepository;
+  IStoredItemRepository storedItemRepository;
   StoredItemFactory storedItemFactory;
 
-  public StoredItemService(StoredItemRepositoryImpl storedItemRepository,
+  public StoredItemService(IStoredItemRepository storedItemRepository,
                            StoredItemFactory storedItemFactory) {
     this.storedItemRepository = storedItemRepository;
     this.storedItemFactory = storedItemFactory;

@@ -38,3 +38,6 @@ out/
 
 ### H2DB ###
 /h2db
+
+### For development ###
+application-dev.properties

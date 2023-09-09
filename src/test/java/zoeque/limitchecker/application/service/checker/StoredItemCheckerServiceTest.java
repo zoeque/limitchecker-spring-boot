@@ -1,4 +1,4 @@
-package zoeque.limitchecker.application.service;
+package zoeque.limitchecker.application.service.checker;
 
 import io.vavr.control.Try;
 import java.time.LocalDateTime;
@@ -16,7 +16,7 @@ import zoeque.limitchecker.domain.entity.StoredItem;
 import zoeque.limitchecker.domain.entity.factory.StoredItemFactory;
 import zoeque.limitchecker.domain.model.AlertStatusFlag;
 import zoeque.limitchecker.domain.model.ItemTypeModel;
-import zoeque.limitchecker.domain.repository.StoredItemRepositoryImpl;
+import zoeque.limitchecker.domain.repository.IStoredItemRepository;
 import zoeque.limitchecker.domain.specification.StoredItemSpecification;
 import zoeque.limitchecker.testtool.DatabaseDropService;
 
@@ -24,7 +24,7 @@ import zoeque.limitchecker.testtool.DatabaseDropService;
 @ExtendWith(SpringExtension.class)
 public class StoredItemCheckerServiceTest {
   @Autowired
-  StoredItemRepositoryImpl repository;
+  IStoredItemRepository repository;
   @Autowired
   DatabaseDropService databaseDropService;
   @Autowired
