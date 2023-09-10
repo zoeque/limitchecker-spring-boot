@@ -12,7 +12,7 @@ If the expiration date is within the number of days specified in the AlertDefini
 The alert email notifies the expiration date has passed. Specifically, the Service class will send an email notification if there is a consumption date that matches today's date as a warning item. This process is also executed at 8:00 AM.
 
 ## User Interface
-**TBD** design, implements. I need to study about the front-end technology...
+**TBD** need to study, research, etc...
 
 ## Controller
 The interface of the visible process and the back-end process handles the REST API with full specified messages.  
@@ -23,10 +23,16 @@ The controller receives the message and handle the information about item bellow
 
 ## Development
 This application is built with the environment bellow;
+### Back end
 - OpenJDK 17.0.7
 - Spring boot 3.1.1
 - IntelliJ IDEA 2023.1.2
 - embedded H2DB
+
+### Front end
+- Vite + React
+- TypeScript
+- Node.js 16.14.0
 
 ### Architecture
 The architecture of this program is based on Domain driven development model.

@@ -35,6 +35,12 @@ out/
 
 ### VS Code ###
 .vscode/
+/node_modules
+/coverage
+/build
+.DS_Store
+.env
+npm-debug.log
 
 ### H2DB ###
 /h2db
