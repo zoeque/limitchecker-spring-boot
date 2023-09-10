@@ -24,21 +24,18 @@ public abstract class AbstractMailSenderService implements IMailService {
   protected String fromMailAddress;
   protected MailServiceProviderModel model;
   MailServiceCollector collector;
-  JavaMailSender javaMailSender;
 
   public AbstractMailSenderService(@Value("${zoeque.limitchecker.mail.address.to:null}")
                                    String toMailAddress,
                                    @Value("${zoeque.limitchecker.mail.address.from:null}")
                                    String fromMailAddress,
-                                   @Value("${zoeque.limitchecker.mail.provider:OTHERS}")
+                                   @Value("${zoeque.limitchecker.mail.provider:GMAIL}")
                                    MailServiceProviderModel model,
-                                   MailServiceCollector collector,
-                                   JavaMailSender javaMailSender) {
+                                   MailServiceCollector collector) {
     this.toMailAddress = toMailAddress;
     this.fromMailAddress = fromMailAddress;
     this.model = model;
     this.collector = collector;
-    this.javaMailSender = javaMailSender;
   }
 
   /**

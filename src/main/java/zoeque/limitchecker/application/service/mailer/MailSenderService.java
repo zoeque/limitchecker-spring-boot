@@ -16,6 +16,7 @@ import zoeque.limitchecker.domain.model.MailServiceProviderModel;
 @Service
 @MailService(MailServiceProviderModel.OTHERS)
 public class MailSenderService extends AbstractMailSenderService {
+  JavaMailSender javaMailSender;
   public MailSenderService(@Value("${zoeque.limitchecker.mail.address.to:null}")
                            String toMailAddress,
                            @Value("${zoeque.limitchecker.mail.address.from:null}")
@@ -24,7 +25,8 @@ public class MailSenderService extends AbstractMailSenderService {
                            MailServiceProviderModel model,
                            MailServiceCollector collector,
                            JavaMailSender javaMailSender) {
-    super(toMailAddress, fromMailAddress, model, collector, javaMailSender);
+    super(toMailAddress, fromMailAddress, model, collector);
+    this.javaMailSender = javaMailSender;
   }
 
   /**
