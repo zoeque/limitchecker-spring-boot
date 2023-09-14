@@ -33,7 +33,7 @@ public class StoredItemService {
     try {
       return Try.success(factory.createStoredItem(
               factory.createItemDetail(jsonDto.itemName(),
-                      convertItemTypeModelByValue(jsonDto.getItemType()),
+                      convertItemTypeModelByValue(jsonDto.itemType()),
                       convertStringDateToLocalDateTime(jsonDto.expiredDate())).get(),
               AlertStatusFlag.NOT_REPORTED));
     } catch (Exception e) {
