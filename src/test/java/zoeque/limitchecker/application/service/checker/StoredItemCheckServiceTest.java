@@ -11,17 +11,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import zoeque.limitchecker.application.dto.record.ItemDetailDto;
 import zoeque.limitchecker.application.dto.record.StoredItemDto;
-import zoeque.limitchecker.application.service.checker.StoredItemService;
 import zoeque.limitchecker.domain.model.ItemTypeModel;
 import zoeque.limitchecker.testtool.DatabaseDropService;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-public class StoredItemServiceTest {
+public class StoredItemCheckServiceTest {
   @Autowired
   DatabaseDropService databaseDropService;
   @Autowired
-  StoredItemService storedItemService;
+  StoredItemCheckService storedItemCheckService;
 
   @BeforeEach
   public void deleteAllDataInDb() {
@@ -32,7 +31,7 @@ public class StoredItemServiceTest {
   public void createNewItem_thenReturnSuccess() {
     StoredItemDto item = new StoredItemDto(new ItemDetailDto("test",
             ItemTypeModel.OTHERS, LocalDateTime.now()));
-    Try<StoredItemDto> itemDtoTry = storedItemService.create(item);
+    Try<StoredItemDto> itemDtoTry = storedItemCheckService.create(item);
     Assertions.assertTrue(itemDtoTry.isSuccess());
   }
 }

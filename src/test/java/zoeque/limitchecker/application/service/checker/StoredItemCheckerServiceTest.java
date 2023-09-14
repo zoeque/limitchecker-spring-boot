@@ -42,11 +42,9 @@ public class StoredItemCheckerServiceTest {
   @Test
   public void whenSaveTwoWarnedItems_withDifferentTypes_foundTwoItemsInDb() {
     StoredItemCheckerService service = new StoredItemCheckerService(repository, specification, publisher);
-    StoredItem storedItem1 = factory.createStoredItem(factory.createStoredItemIdentifier("test1").get(),
-            factory.createItemDetail("test1", ItemTypeModel.EGG, LocalDateTime.now().plusDays(2)).get(),
+    StoredItem storedItem1 = factory.createStoredItem(factory.createItemDetail("test1", ItemTypeModel.EGG, LocalDateTime.now().plusDays(2)).get(),
             AlertStatusFlag.NOT_REPORTED);
-    StoredItem storedItem2 = factory.createStoredItem(factory.createStoredItemIdentifier("test2").get(),
-            factory.createItemDetail("test2", ItemTypeModel.SNACK, LocalDateTime.now().plusDays(5)).get(),
+    StoredItem storedItem2 = factory.createStoredItem(factory.createItemDetail("test2", ItemTypeModel.SNACK, LocalDateTime.now().plusDays(5)).get(),
             AlertStatusFlag.NOT_REPORTED);
 
     repository.save(storedItem1);
@@ -60,11 +58,9 @@ public class StoredItemCheckerServiceTest {
   @Test
   public void whenSaveTwoExpiredItems_withDifferentTypes_foundTwoItemsInDb() {
     StoredItemCheckerService service = new StoredItemCheckerService(repository, specification, publisher);
-    StoredItem storedItem1 = factory.createStoredItem(factory.createStoredItemIdentifier("test1").get(),
-            factory.createItemDetail("test1", ItemTypeModel.EGG, LocalDateTime.now().minusDays(1)).get(),
+    StoredItem storedItem1 = factory.createStoredItem(factory.createItemDetail("test1", ItemTypeModel.EGG, LocalDateTime.now().minusDays(1)).get(),
             AlertStatusFlag.NOT_REPORTED);
-    StoredItem storedItem2 = factory.createStoredItem(factory.createStoredItemIdentifier("test2").get(),
-            factory.createItemDetail("test2", ItemTypeModel.SNACK, LocalDateTime.now().minusDays(1)).get(),
+    StoredItem storedItem2 = factory.createStoredItem(factory.createItemDetail("test2", ItemTypeModel.SNACK, LocalDateTime.now().minusDays(1)).get(),
             AlertStatusFlag.NOT_REPORTED);
 
     repository.save(storedItem1);

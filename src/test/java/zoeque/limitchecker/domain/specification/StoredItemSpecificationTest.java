@@ -36,8 +36,7 @@ public class StoredItemSpecificationTest {
   @Test
   public void ifStoredItemWithSpecifiedConditionInDb_canFindWarnItem() {
     String name = "test";
-    StoredItem storedItem = factory.createStoredItem(factory.createStoredItemIdentifier(name).get(),
-            factory.createItemDetail(name, ItemTypeModel.EGG, LocalDateTime.now().plusDays(2)).get(),
+    StoredItem storedItem = factory.createStoredItem(factory.createItemDetail(name, ItemTypeModel.EGG, LocalDateTime.now().plusDays(2)).get(),
             AlertStatusFlag.NOT_REPORTED);
     repository.save(storedItem);
     List<StoredItem> items = repository.findAll(
@@ -49,8 +48,7 @@ public class StoredItemSpecificationTest {
   @Test
   public void ifStoredItemWithExpiredConditionInDb_canFindExpiredItem() {
     String name = "test";
-    StoredItem storedItem = factory.createStoredItem(factory.createStoredItemIdentifier(name).get(),
-            factory.createItemDetail(name, ItemTypeModel.EGG, LocalDateTime.now().minusDays(1)).get(),
+    StoredItem storedItem = factory.createStoredItem(factory.createItemDetail(name, ItemTypeModel.EGG, LocalDateTime.now().minusDays(1)).get(),
             AlertStatusFlag.NOT_REPORTED);
     repository.save(storedItem);
     List<StoredItem> items = repository.findAll(
