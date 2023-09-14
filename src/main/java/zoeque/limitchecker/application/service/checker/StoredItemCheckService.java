@@ -1,7 +1,6 @@
 package zoeque.limitchecker.application.service.checker;
 
 import io.vavr.control.Try;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -15,12 +14,12 @@ import zoeque.limitchecker.application.dto.record.StoredItemDto;
 
 @Service
 @Slf4j
-public class StoredItemService {
+public class StoredItemCheckService {
   IStoredItemRepository storedItemRepository;
   StoredItemFactory storedItemFactory;
 
-  public StoredItemService(IStoredItemRepository storedItemRepository,
-                           StoredItemFactory storedItemFactory) {
+  public StoredItemCheckService(IStoredItemRepository storedItemRepository,
+                                StoredItemFactory storedItemFactory) {
     this.storedItemRepository = storedItemRepository;
     this.storedItemFactory = storedItemFactory;
   }
@@ -33,7 +32,6 @@ public class StoredItemService {
   public Try<StoredItemDto> create(StoredItemDto storedItemDto) {
     try {
       StoredItem storedItem = storedItemFactory.createStoredItem(
-              storedItemFactory.createStoredItemIdentifier(UUID.randomUUID().toString()).get(),
               storedItemFactory.createItemDetail(storedItemDto.getItemDetail().getItemName(),
                       storedItemDto.getItemDetail().getItemTypeModel(),
                       storedItemDto.getItemDetail().getExpirationDate()).get(),

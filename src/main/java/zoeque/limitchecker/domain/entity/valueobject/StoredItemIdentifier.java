@@ -1,6 +1,8 @@
 package zoeque.limitchecker.domain.entity.valueobject;
 
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -16,6 +18,7 @@ import zoeque.limitchecker.domain.entity.StoredItem;
 @NoArgsConstructor
 @Embeddable
 public class StoredItemIdentifier {
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   String identifier;
   public StoredItemIdentifier(String identifier) {
     setIdentifier(identifier);

@@ -30,19 +30,10 @@ public class StoredItem {
   @Enumerated(EnumType.STRING)
   AlertStatusFlag alertStatusFlag;
 
-  public StoredItem(StoredItemIdentifier identifier,
-                    ItemDetail itemDetail,
+  public StoredItem(ItemDetail itemDetail,
                     AlertStatusFlag alertStatusFlag) {
-    setStoredItemIdentifier(identifier);
     setItemDetail(itemDetail);
     setAlertStatusFlag(alertStatusFlag);
-  }
-
-  private void setStoredItemIdentifier(StoredItemIdentifier identifier) {
-    if (identifier == null) {
-      throw new IllegalArgumentException("Identifier must not be null");
-    }
-    this.identifier = identifier;
   }
 
   private void setItemDetail(ItemDetail itemDetail) {

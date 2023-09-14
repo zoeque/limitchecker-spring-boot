@@ -1,5 +1,7 @@
 package zoeque.limitchecker.domain.model;
 
+import lombok.Getter;
+
 /**
  * Define item type
  */
@@ -12,19 +14,13 @@ public enum ItemTypeModel {
   SNACK("snack", 10),
   OTHERS("others", 7);
 
+  @Getter
   String itemType;
+  @Getter
   Integer expirationDate;
 
   ItemTypeModel(String itemType, Integer expirationDate) {
     this.itemType = itemType;
     this.expirationDate = expirationDate;
-  }
-
-  public String getItemType() {
-    return this.itemType;
-  }
-
-  public Integer getExpirationDate() {
-    return this.expirationDate;
   }
 }
