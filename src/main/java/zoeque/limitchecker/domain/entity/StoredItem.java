@@ -22,27 +22,17 @@ import zoeque.limitchecker.domain.model.AlertStatusFlag;
 @Table(name = "stored_item")
 public class StoredItem {
   @Id
-  @Embedded
-  @EqualsAndHashCode.Include
-  StoredItemIdentifier identifier;
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  long identifier;
   @Embedded
   ItemDetail itemDetail;
   @Enumerated(EnumType.STRING)
   AlertStatusFlag alertStatusFlag;
 
-  public StoredItem(StoredItemIdentifier identifier,
-                    ItemDetail itemDetail,
+  public StoredItem(ItemDetail itemDetail,
                     AlertStatusFlag alertStatusFlag) {
-    setStoredItemIdentifier(identifier);
     setItemDetail(itemDetail);
     setAlertStatusFlag(alertStatusFlag);
-  }
-
-  private void setStoredItemIdentifier(StoredItemIdentifier identifier) {
-    if (identifier == null) {
-      throw new IllegalArgumentException("Identifier must not be null");
-    }
-    this.identifier = identifier;
   }
 
   private void setItemDetail(ItemDetail itemDetail) {

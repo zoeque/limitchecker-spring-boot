@@ -2,37 +2,21 @@ package zoeque.limitchecker.domain.entity.factory;
 
 import io.vavr.control.Try;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import zoeque.limitchecker.domain.entity.StoredItem;
 import zoeque.limitchecker.domain.entity.valueobject.*;
-import zoeque.limitchecker.domain.model.ItemTypeModel;
 import zoeque.limitchecker.domain.model.AlertStatusFlag;
-
-import java.util.UUID;
+import zoeque.limitchecker.domain.model.ItemTypeModel;
 
 /**
  * Factory class to create new Item and its value object
  */
 @Slf4j
 public abstract class AbstractStoredItemFactory {
-  public StoredItem createStoredItem(StoredItemIdentifier identifier,
-                                     ItemDetail itemDetail,
+  public StoredItem createStoredItem(ItemDetail itemDetail,
                                      AlertStatusFlag alertStatusFlag) {
-    return new StoredItem(identifier, itemDetail, alertStatusFlag);
-  }
-
-  /**
-   * Create new identifier for the {@link StoredItem}
-   *
-   * @param name the name of the identifier. use {@link UUID} and else.
-   * @return Result {@link Try} with the created instance or the exception.
-   */
-  public Try<StoredItemIdentifier> createStoredItemIdentifier(String name) {
-    try {
-      return Try.success(new StoredItemIdentifier(name));
-    } catch (Exception e) {
-      return Try.failure(e);
-    }
+    return new StoredItem(itemDetail, alertStatusFlag);
   }
 
   /**
