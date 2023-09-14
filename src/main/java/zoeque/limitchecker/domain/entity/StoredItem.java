@@ -22,9 +22,8 @@ import zoeque.limitchecker.domain.model.AlertStatusFlag;
 @Table(name = "stored_item")
 public class StoredItem {
   @Id
-  @Embedded
-  @EqualsAndHashCode.Include
-  StoredItemIdentifier identifier;
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  long identifier;
   @Embedded
   ItemDetail itemDetail;
   @Enumerated(EnumType.STRING)

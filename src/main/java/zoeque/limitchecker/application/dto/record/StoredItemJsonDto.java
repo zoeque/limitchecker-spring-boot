@@ -13,7 +13,6 @@ import zoeque.limitchecker.adapter.StoredItemController;
  * @param itemType the selected item type.
  * @param expiredDate the selected expired date.
  */
-@Getter
 @JsonDeserialize(as = StoredItemJsonDto.class)
 public record StoredItemJsonDto(
         String itemName,
