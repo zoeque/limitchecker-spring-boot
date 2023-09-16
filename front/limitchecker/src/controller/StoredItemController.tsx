@@ -1,17 +1,15 @@
 import axios from "axios";
 
-const json = {
-    itemName: '',
-    itemType: '',
-    expiredDate: ''
-}
+export const sendPostRequest = async (itemName: string, itemType: string, expiredDate: string) => {
 
-async function sendPostRequest() {
-    const response = await axios.post('http://localhost:8090/create', json, {
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    });
+    let response
+    try {
+        response = await axios.post('http://localhost:8080/create', {
+            itemName: itemName,
+            itemType: itemType,
+            expiredDate: expiredDate
+        });
+    } catch (error) {
+        console.warn(error);
+    }
 }
-
-sendPostRequest();

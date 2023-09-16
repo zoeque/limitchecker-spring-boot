@@ -5,6 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import './App.css'
 import Pulldown from './component/Pulldown';
 import CreateButton from './component/CreateButton'
+import { sendPostRequest } from './controller/StoredItemController';
 
 function App() {
   const today = new Date();
@@ -44,7 +45,8 @@ function App() {
         />
       </div>
       <div>
-        <CreateButton />
+        <CreateButton itemName={inputItemName} itemType={inputItemType} expiredDate={inputExpiredDate}
+        sendPostRequest={sendPostRequest} />
       </div>
 
       <p className="read-the-docs">
