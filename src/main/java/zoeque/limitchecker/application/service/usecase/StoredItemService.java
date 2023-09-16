@@ -1,8 +1,12 @@
 package zoeque.limitchecker.application.service.usecase;
 
 import io.vavr.control.Try;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import zoeque.limitchecker.adapter.StoredItemController;
@@ -52,8 +56,9 @@ public class StoredItemService {
     throw new IllegalArgumentException("Invalid Item type is received!! : " + value);
   }
 
-  private LocalDateTime convertStringDateToLocalDateTime(String date) {
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-    return LocalDateTime.parse(date, dtf);
+  private LocalDateTime convertStringDateToLocalDateTime(String date) throws ParseException {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+    Date formatDate = sdf.parse(date);
+    return LocalDateTime.ofInstant(formatDate.toInstant(), ZoneId.systemDefault());
   }
 }
