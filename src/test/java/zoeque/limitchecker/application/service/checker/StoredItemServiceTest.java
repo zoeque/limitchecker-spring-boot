@@ -16,7 +16,7 @@ import zoeque.limitchecker.testtool.DatabaseDropService;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-public class StoredItemCheckServiceTest {
+public class StoredItemServiceTest {
   @Autowired
   DatabaseDropService databaseDropService;
   @Autowired

@@ -10,7 +10,7 @@ import zoeque.limitchecker.application.dto.record.StoredItemJsonDto;
 import zoeque.limitchecker.application.service.usecase.StoredItemService;
 import zoeque.limitchecker.domain.entity.StoredItem;
 
-@RestController("item")
+@RestController("/item")
 @Component
 public class StoredItemController {
   public StoredItemController(StoredItemService service) {
@@ -19,7 +19,7 @@ public class StoredItemController {
 
   StoredItemService service;
 
-  @PostMapping("/regist")
+  @PostMapping("/create")
   public ResponseEntity createNewStoredItem(@RequestBody StoredItemJsonDto dto) {
     Try<StoredItem> createTry = service.createNewStoredItem(dto);
     if (createTry.isFailure()) {
