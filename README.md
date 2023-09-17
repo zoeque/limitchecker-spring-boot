@@ -32,7 +32,6 @@ This application is built with the environment bellow;
 ### Front end
 - Vite + React
 - TypeScript
-- Node.js 16.14.0
 
 ### Architecture
 The architecture of this program is based on Domain driven development model.
