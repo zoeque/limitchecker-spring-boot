@@ -3,11 +3,11 @@ import React from 'react';
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import './App.css'
-import Pulldown from './Pulldown';
+import Pulldown from './component/Pulldown';
+import CreateButton from './component/CreateButton'
 
 function App() {
   const today = new Date();
-  const [count, setCount] = useState(0)
 
   const [inputItemName, setItemName] = useState('');
   const [inputItemType, setItemType] = useState('');
@@ -15,6 +15,10 @@ function App() {
 
   const handleItemName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setItemName(event.target.value);
+  };
+
+  const handleItemType = (selectedItemType: string) => {
+    setItemType(selectedItemType);
   };
 
   return (
@@ -27,7 +31,9 @@ function App() {
         <input type="itemName" placeholder="対象商品名" value={inputItemName} onChange={handleItemName} />
       </div>
       <div>
-        <Pulldown />
+        <Pulldown
+          onRowSelect={handleItemType}
+        />
       </div>
       <div>
         <DatePicker
@@ -37,11 +43,10 @@ function App() {
           placeholderText="日付を選択"
         />
       </div>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          登録 {count}
-        </button>
+      <div>
+        <CreateButton />
       </div>
+
       <p className="read-the-docs">
         Created by zoeque. See <a href="https://github.com/zoeque">GitHub</a> for a detail.
       </p>

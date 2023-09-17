@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
-import './Pulldown.css'
-import './App.css'
+import './components.css'
+import '../App.css'
 
 interface Option {
     label: string;
     value: string;
 }
 
-/**
- * The constant to create a pulldown with the row 
- * contains the ItemTypeModel with key-value.
- * 
- * @returns Pulldown
- */
-const Pulldown: React.FC = () => {
+type PulldownProps = {
+    onRowSelect: (value: string) => void;
+};
+
+function Pulldown({ onRowSelect }: PulldownProps) {
     const [selectedRow, setRow] = useState<Option | null>(null);
 
     // The dropdown values used in ItemType
@@ -36,6 +34,7 @@ const Pulldown: React.FC = () => {
         const selectedValue = event.target.value;
         const selected = options.find((option) => option.value === selectedValue);
         setRow(selected || null);
+        onRowSelect(selectedValue);
     };
 
 
