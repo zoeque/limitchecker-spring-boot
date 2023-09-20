@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import React from 'react';
+import { FC } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import './App.css'
 import Pulldown from './component/Pulldown';
 import CreateButton from './component/CreateButton'
 import { sendPostRequest } from './controller/StoredItemController';
+import { Link } from "react-router-dom";
 
-function App() {
+const App: FC = () => {
   const today = new Date();
 
   const [inputItemName, setItemName] = useState('');
@@ -46,9 +48,13 @@ function App() {
       </div>
       <div>
         <CreateButton itemName={inputItemName} itemType={inputItemType} expiredDate={inputExpiredDate}
-        sendPostRequest={sendPostRequest} />
+          sendPostRequest={sendPostRequest} />
       </div>
-
+      <div>
+        <nav>
+          <Link to="/storedItemList">一覧表示</Link>
+        </nav>
+      </div>
       <p className="read-the-docs">
         Created by zoeque. See <a href="https://github.com/zoeque">GitHub</a> for a detail.
       </p>
