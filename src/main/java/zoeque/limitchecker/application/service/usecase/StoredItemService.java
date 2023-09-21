@@ -5,8 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import zoeque.limitchecker.adapter.StoredItemController;
@@ -33,6 +33,12 @@ public class StoredItemService {
     this.factory = factory;
   }
 
+  /**
+   * The business logic to create new {@link StoredItem}/
+   *
+   * @param jsonDto {@link StoredItemJsonDto} given via {@link StoredItemController}.
+   * @return The result of {@link Try} with a created instance.
+   */
   public Try<StoredItem> createNewStoredItem(StoredItemJsonDto jsonDto) {
     try {
       return Try.success(factory.createStoredItem(
@@ -42,6 +48,21 @@ public class StoredItemService {
               AlertStatusFlag.NOT_REPORTED));
     } catch (Exception e) {
       log.warn("Cannot convert JSON to StoredItem entity : {}", jsonDto);
+      return Try.failure(e);
+    }
+  }
+
+  /**
+   * The service method to find the all saved {@link StoredItem}.
+   *
+   * @return The list instance with result of {@link Try} or an exception.
+   */
+  public Try<List<StoredItem>> findAllStoredItem() {
+    try {
+      List<StoredItem> itemList = repository.findAll();
+      return Try.success(itemList);
+    } catch (Exception e) {
+      log.warn("Cannot find the stored item caused by : " + e.getCause());
       return Try.failure(e);
     }
   }
