@@ -30,7 +30,7 @@ public class StoredItemController {
 
   @GetMapping("/find")
   public ResponseEntity findAllStoredItem() {
-    Try<List<StoredItem>> findTry = service.findAllStoredItem();
+    Try<List<StoredItemJsonDto>> findTry = service.findAllStoredItem();
     if (findTry.isFailure()) {
       return ResponseEntity.badRequest().body(findTry.getCause());
     }
