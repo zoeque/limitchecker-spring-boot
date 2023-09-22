@@ -38,7 +38,11 @@ const SavedItemList = () => {
   return (
     <div>
       {item.map((storedItem) => (
-        <li key={storedItem.itemName}>{storedItem.itemName}</li>
+        <tr>
+          <th scope="row">{storedItem.itemName}</th>
+          <td>{storedItem.itemType}</td>
+          <td>{storedItem.expiredDate}</td>
+        </tr>
       ))}
     </div>
   );

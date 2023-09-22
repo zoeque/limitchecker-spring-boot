@@ -1,6 +1,7 @@
 import { FC, useCallback, useEffect, useState } from "react";
 import "../App.css"
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const isError = (error: unknown): error is Error => {
   return error instanceof Error;
@@ -42,15 +43,20 @@ export const StoredItemList: FC = () => {
 
   return (
     <div className='card'>
-      <h1>Hello</h1>
-      <div>
-        {item.map((storedItem) => (
-          <li key={storedItem.itemName}>{storedItem.itemName}</li>
-        ))}
-      </div>
+      <h2>一覧表示</h2>
       <button onClick={fetchStoredItem}>
         検索
       </button>
+      <div>
+        {item.map((storedItem) => (
+          <tr>
+            <th scope="row">{storedItem.itemName}</th>
+            <td>{storedItem.itemType}</td>
+            <td>{storedItem.expiredDate}</td>
+          </tr>
+        ))}
+      </div>
+      <Link to="/">戻る</Link>
     </div>
   );
 };
