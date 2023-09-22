@@ -6,7 +6,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import zoeque.limitchecker.adapter.StoredItemController;
@@ -33,6 +35,12 @@ public class StoredItemService {
     this.factory = factory;
   }
 
+  /**
+   * The business logic to create new {@link StoredItem}/
+   *
+   * @param jsonDto {@link StoredItemJsonDto} given via {@link StoredItemController}.
+   * @return The result of {@link Try} with a created instance.
+   */
   public Try<StoredItem> createNewStoredItem(StoredItemJsonDto jsonDto) {
     try {
       return Try.success(factory.createStoredItem(
@@ -42,6 +50,30 @@ public class StoredItemService {
               AlertStatusFlag.NOT_REPORTED));
     } catch (Exception e) {
       log.warn("Cannot convert JSON to StoredItem entity : {}", jsonDto);
+      return Try.failure(e);
+    }
+  }
+
+  /**
+   * The service method to find the all saved {@link StoredItem}.
+   *
+   * @return The list instance with result of {@link Try} or an exception.
+   */
+  public Try<List<StoredItemJsonDto>> findAllStoredItem() {
+    try {
+      List<StoredItem> itemList = repository.findAll();
+      List<StoredItemJsonDto> jsonList = new ArrayList<>();
+      for (StoredItem item : itemList) {
+        StoredItemJsonDto json
+                = new StoredItemJsonDto(item.getItemDetail().getItemName().getName(),
+                item.getItemDetail().getItemType().getModel().getLabel(),
+                convertLocalDateTimeToString(
+                        item.getItemDetail().getExpirationDate().getDate()));
+        jsonList.add(json);
+      }
+      return Try.success(jsonList);
+    } catch (Exception e) {
+      log.warn("Cannot find the stored item caused by : " + e.getCause());
       return Try.failure(e);
     }
   }
@@ -60,5 +92,10 @@ public class StoredItemService {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
     Date formatDate = sdf.parse(date);
     return LocalDateTime.ofInstant(formatDate.toInstant(), ZoneId.systemDefault());
+  }
+
+  private String convertLocalDateTimeToString(LocalDateTime localDateTime) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+    return localDateTime.format(formatter);
   }
 }
