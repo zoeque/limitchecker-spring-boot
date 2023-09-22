@@ -1,6 +1,5 @@
-import { FC, useCallback, useEffect, useState } from "react";
-import "../App.css"
 import axios from "axios";
+import { useCallback, useEffect, useState } from "react";
 
 const isError = (error: unknown): error is Error => {
   return error instanceof Error;
@@ -11,16 +10,9 @@ interface StoredItem {
   itemType: string;
   expiredDate: string;
 }
-
-export const StoredItemList: FC = () => {
-
+const SavedItemList = () => {
   const [item, setItem] = useState<StoredItem[]>([]);
   const [error, setError] = useState<Error | undefined>(undefined);
-
-
-  if (error) {
-    return <div>{error.message}</div>;
-  }
 
   const fetchStoredItem = useCallback(async () => {
     try {
@@ -35,22 +27,21 @@ export const StoredItemList: FC = () => {
     }
   }, []);
 
-
   useEffect(() => {
     fetchStoredItem();
   }, [fetchStoredItem]);
 
+  if (error) {
+    return <div>{error.message}</div>;
+  }
+
   return (
-    <div className='card'>
-      <h1>Hello</h1>
-      <div>
-        {item.map((storedItem) => (
-          <li key={storedItem.itemName}>{storedItem.itemName}</li>
-        ))}
-      </div>
-      <button onClick={fetchStoredItem}>
-        検索
-      </button>
+    <div>
+      {item.map((storedItem) => (
+        <li key={storedItem.itemName}>{storedItem.itemName}</li>
+      ))}
     </div>
   );
 };
+
+export default SavedItemList;
