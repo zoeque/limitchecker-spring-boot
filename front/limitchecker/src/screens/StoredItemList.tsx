@@ -44,10 +44,7 @@ export const StoredItemList: FC = () => {
   return (
     <div className='card'>
       <h2>一覧表示</h2>
-      <button onClick={fetchStoredItem}>
-        検索
-      </button>
-      <div>
+      <div onLoad={fetchStoredItem}>
         {item.map((storedItem) => (
           <tr>
             <th scope="row">{storedItem.itemName}</th>
