@@ -17,7 +17,14 @@ const App: FC = () => {
   const [inputItemName, setItemName] = useState('');
   const [inputItemType, setItemType] = useState('others');
   const [inputExpiredDate, setExpiredDate] = React.useState(today);
-  const [expiredDateToSend, setExpiredDateToSend] = useState('');
+
+  const setTodayAsFormatted = () => {
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return year + "/" + month + "/" + day;
+  }
+  const [expiredDateToSend, setExpiredDateToSend] = useState(setTodayAsFormatted);
 
   const handleItemName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setItemName(event.target.value);
@@ -29,9 +36,9 @@ const App: FC = () => {
 
   const handleSelectedDate = (date: Date) => {
     setExpiredDate(date || today);
-    const year = date.getFullYear().toString;
-    const month = String(date.getMonth() + 1).padStart(2, '0').toString;
-    const day = String(date.getDate()).padStart(2, '0').toString;
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
     setExpiredDateToSend(year + "/" + month + "/" + day);
   }
 
@@ -60,7 +67,10 @@ const App: FC = () => {
         />
       </div>
       <div>
-        <CreateButton itemName={inputItemName} itemType={inputItemType} expiredDate={expiredDateToSend}
+        <CreateButton
+          itemName={inputItemName}
+          itemType={inputItemType}
+          expiredDate={expiredDateToSend}
           sendPostRequest={sendPostRequest} />
       </div>
       <div>
