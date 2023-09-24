@@ -42,18 +42,25 @@ export const StoredItemList: FC = () => {
   }, [fetchStoredItem]);
 
   return (
-    <div className='card'>
+    <div>
       <h2>一覧表示</h2>
-      <div onLoad={fetchStoredItem}>
-        {item.map((storedItem) => (
-          <tr>
-            <th scope="row">{storedItem.itemName}</th>
-            <td>{storedItem.itemType}</td>
-            <td>{storedItem.expiredDate}</td>
-          </tr>
-        ))}
-      </div>
       <Link to="/">戻る</Link>
+      <div onLoad={fetchStoredItem}>
+        <table>
+          <tr>
+            <td>品名</td>
+            <td>種目</td>
+            <td>消費期限</td>
+          </tr>
+          {item.map((storedItem) => (
+            <tr>
+              <td>{storedItem.itemName}</td>
+              <td>{storedItem.itemType}</td>
+              <td>{storedItem.expiredDate}</td>
+            </tr>
+          ))}
+        </table>
+      </div>
     </div>
   );
 };

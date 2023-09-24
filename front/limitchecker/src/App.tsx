@@ -1,20 +1,23 @@
 import { useState } from 'react'
 import React from 'react';
 import { FC } from 'react'
-import DatePicker from 'react-datepicker'
+import DatePicker, { registerLocale } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import './App.css'
 import Pulldown from './component/Pulldown';
 import CreateButton from './component/CreateButton'
 import { sendPostRequest } from './controller/StoredItemController';
 import { Link } from "react-router-dom";
+import ja from "date-fns/locale/ja"
 
 const App: FC = () => {
   const today = new Date();
+  registerLocale("ja", ja);
 
   const [inputItemName, setItemName] = useState('');
-  const [inputItemType, setItemType] = useState('');
+  const [inputItemType, setItemType] = useState('others');
   const [inputExpiredDate, setExpiredDate] = React.useState(today);
+  const [expiredDateToSend, setExpiredDateToSend] = useState('');
 
   const handleItemName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setItemName(event.target.value);
@@ -23,6 +26,14 @@ const App: FC = () => {
   const handleItemType = (selectedItemType: string) => {
     setItemType(selectedItemType);
   };
+
+  const handleSelectedDate = (date: Date) => {
+    setExpiredDate(date || today);
+    const year = date.getFullYear().toString;
+    const month = String(date.getMonth() + 1).padStart(2, '0').toString;
+    const day = String(date.getDate()).padStart(2, '0').toString;
+    setExpiredDateToSend(year + "/" + month + "/" + day);
+  }
 
   return (
     <>
@@ -40,14 +51,16 @@ const App: FC = () => {
       </div>
       <div>
         <DatePicker
-          selected={inputExpiredDate}
-          onChange={selectedDate => { setExpiredDate(selectedDate || today) }}
           dateFormat="yyyy/MM/dd"
+          selected={inputExpiredDate}
+          locale="ja"
+          minDate={today}
+          onChange={selectedDate => { handleSelectedDate(selectedDate || today) }}
           placeholderText="日付を選択"
         />
       </div>
       <div>
-        <CreateButton itemName={inputItemName} itemType={inputItemType} expiredDate={inputExpiredDate}
+        <CreateButton itemName={inputItemName} itemType={inputItemType} expiredDate={expiredDateToSend}
           sendPostRequest={sendPostRequest} />
       </div>
       <div>
