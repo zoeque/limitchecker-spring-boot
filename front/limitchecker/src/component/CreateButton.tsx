@@ -13,12 +13,16 @@ function CreateButton({ itemName, itemType, expiredDate, sendPostRequest }) {
         return true;
     };
     function clickButton() {
-        if (!validateInputName(itemName)) {
-            return;
+        try {
+            if (!validateInputName(itemName)) {
+                return;
+            }
+            {/** Send StoredItem as JSON after the validation */ }
+            sendPostRequest(itemName, itemType, expiredDate);
+            setMessage(itemName + 'を登録しました。')
+        } catch (e) {
+            setMessage("予期せぬエラーが発生しました。エラー：" + e);
         }
-        {/** Send StoredItem as JSON after the validation */ }
-        sendPostRequest(itemName, itemType, expiredDate);
-        setMessage(itemName + 'を登録しました。')
     };
     return (
         <div className="card">
