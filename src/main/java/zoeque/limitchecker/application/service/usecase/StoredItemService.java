@@ -43,11 +43,13 @@ public class StoredItemService {
    */
   public Try<StoredItem> createNewStoredItem(StoredItemJsonDto jsonDto) {
     try {
-      return Try.success(factory.createStoredItem(
+      StoredItem storedItem = factory.createStoredItem(
               factory.createItemDetail(jsonDto.itemName(),
                       convertItemTypeModelByValue(jsonDto.itemType()),
                       convertStringDateToLocalDateTime(jsonDto.expiredDate())).get(),
-              AlertStatusFlag.NOT_REPORTED));
+              AlertStatusFlag.NOT_REPORTED);
+      repository.save(storedItem);
+      return Try.success(storedItem);
     } catch (Exception e) {
       log.warn("Cannot convert JSON to StoredItem entity : {}", jsonDto);
       return Try.failure(e);
