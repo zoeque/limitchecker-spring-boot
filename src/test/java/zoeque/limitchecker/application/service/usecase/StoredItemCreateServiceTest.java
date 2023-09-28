@@ -1,4 +1,4 @@
-package zoeque.limitchecker.application.service.checker;
+package zoeque.limitchecker.application.service.usecase;
 
 import io.vavr.control.Try;
 import org.junit.jupiter.api.Assertions;
@@ -9,17 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import zoeque.limitchecker.application.dto.record.StoredItemJsonDto;
-import zoeque.limitchecker.application.service.usecase.StoredItemService;
+import zoeque.limitchecker.application.service.usecase.StoredItemCreateService;
 import zoeque.limitchecker.domain.entity.StoredItem;
 import zoeque.limitchecker.testtool.DatabaseDropService;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-public class StoredItemServiceTest {
+public class StoredItemCreateServiceTest {
   @Autowired
   DatabaseDropService databaseDropService;
   @Autowired
-  StoredItemService storedItemService;
+  StoredItemCreateService storedItemCreateService;
 
   @BeforeEach
   public void deleteAllDataInDb() {
@@ -29,7 +29,7 @@ public class StoredItemServiceTest {
   @Test
   public void createNewItem_thenReturnSuccess() {
     StoredItemJsonDto item = new StoredItemJsonDto("test", "others", "2099/12/31");
-    Try<StoredItem> itemDtoTry = storedItemService.createNewStoredItem(item);
+    Try<StoredItem> itemDtoTry = storedItemCreateService.createNewStoredItem(item);
     Assertions.assertTrue(itemDtoTry.isSuccess());
   }
 }

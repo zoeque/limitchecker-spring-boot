@@ -42,6 +42,31 @@ public class StoredItemSpecification<StoredItem> {
   }
 
   /**
+   * Find the items that has been expired and reported.
+   * This condition is specified that items have to be deleted.
+   *
+   * @return {@link StoredItem} list that have to be deleted.
+   */
+  public Specification<StoredItem> itemToDrop() {
+    return new Specification<StoredItem>() {
+      @Override
+      public Predicate toPredicate(Root<StoredItem> root, CriteriaQuery<?> query,
+                                   CriteriaBuilder criteriaBuilder) {
+        List<Predicate> predicates = new ArrayList<>();
+
+        predicates.add(criteriaBuilder.lessThan(
+                root.get(StoredItem_.ITEM_DETAIL)
+                        .get(ItemDetail_.EXPIRATION_DATE).get(ExpirationDate_.DATE),
+                LocalDateTime.now()));
+
+        predicates.add(criteriaBuilder.equal(root.get(StoredItem_.ALERT_STATUS_FLAG),
+                AlertStatusFlag.REPORTED));
+        return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+      }
+    };
+  }
+
+  /**
    * Find the item that has specified the condition,
    * (expiration date) > Today - (alert definition date).
    * Items are returned as warned items.
