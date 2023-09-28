@@ -6,18 +6,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import zoeque.limitchecker.application.dto.record.StoredItemJsonDto;
-import zoeque.limitchecker.application.service.usecase.StoredItemService;
+import zoeque.limitchecker.application.service.usecase.StoredItemCreateService;
 import zoeque.limitchecker.domain.entity.StoredItem;
 
 @RestController
 @CrossOrigin(origins = "*")
 @Component
 public class StoredItemController {
-  public StoredItemController(StoredItemService service) {
+  public StoredItemController(StoredItemCreateService service) {
     this.service = service;
   }
 
-  StoredItemService service;
+  StoredItemCreateService service;
 
   @PostMapping("/create")
   public ResponseEntity createNewStoredItem(@RequestBody StoredItemJsonDto dto) {

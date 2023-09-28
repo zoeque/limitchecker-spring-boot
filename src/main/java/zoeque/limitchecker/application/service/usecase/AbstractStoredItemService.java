@@ -1,6 +1,7 @@
-package zoeque.limitchecker.application.service.checker;
+package zoeque.limitchecker.application.service.usecase;
 
 import io.vavr.control.Try;
+import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -20,14 +21,14 @@ import zoeque.limitchecker.domain.specification.StoredItemSpecification;
  * The validation process runs by the {@link Scheduled} annotation.
  */
 @Slf4j
-public abstract class AbstractStoredItemCheckerService {
+public abstract class AbstractStoredItemService {
   IStoredItemRepository repository;
   StoredItemSpecification<StoredItem> specification;
   ApplicationEventPublisher publisher;
 
-  public AbstractStoredItemCheckerService(IStoredItemRepository repository,
-                                          StoredItemSpecification<StoredItem> specification,
-                                          ApplicationEventPublisher publisher) {
+  public AbstractStoredItemService(IStoredItemRepository repository,
+                                   StoredItemSpecification<StoredItem> specification,
+                                   ApplicationEventPublisher publisher) {
     this.repository = repository;
     this.specification = specification;
     this.publisher = publisher;
@@ -38,6 +39,7 @@ public abstract class AbstractStoredItemCheckerService {
    * If expired items or warned items are found, publish {@link MailNotificationEvent}
    * to the {@link AbstractMailSenderService} to send e-mail to notify the caution.
    */
+  @Transactional
   protected void execute() {
     Try<List<StoredItem>> warnedItemTry = findWarnedItem();
     Try<List<StoredItem>> expiredItemTry = findExpiredItem();

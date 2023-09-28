@@ -25,12 +25,12 @@ import zoeque.limitchecker.domain.repository.IStoredItemRepository;
  */
 @Slf4j
 @Service
-public class StoredItemService {
+public class StoredItemCreateService {
   IStoredItemRepository repository;
   StoredItemFactory factory;
 
-  public StoredItemService(IStoredItemRepository repository,
-                           StoredItemFactory factory) {
+  public StoredItemCreateService(IStoredItemRepository repository,
+                                 StoredItemFactory factory) {
     this.repository = repository;
     this.factory = factory;
   }
