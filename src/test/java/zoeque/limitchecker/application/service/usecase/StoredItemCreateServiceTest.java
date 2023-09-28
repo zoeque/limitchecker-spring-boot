@@ -1,4 +1,4 @@
-package zoeque.limitchecker.application.service.checker;
+package zoeque.limitchecker.application.service.usecase;
 
 import io.vavr.control.Try;
 import org.junit.jupiter.api.Assertions;
