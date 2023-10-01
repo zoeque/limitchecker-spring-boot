@@ -48,3 +48,4 @@ This application is built with the Clean Architecture, this is the first attempt
 ### Aggregate pattern
 StoredItem is designed by the given diagrams bellow;
 ![](./doc/images/storedItem.png)  
+All variable parameters are modified by the method in root of the aggregate model.
