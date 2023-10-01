@@ -10,7 +10,7 @@ package StoredItemAggregatePattern {
   class ItemDetail {
     ItemType itemType
     ItemName itemName
-    ExpiredDate expiredDate
+    ExpirationDate expirationDate
   }
 
   class ItemType {
@@ -18,19 +18,19 @@ package StoredItemAggregatePattern {
     AlertDefinition alertDefinition
   }
   class AlertDefinition {
-    Integer expiredDate
+    Integer expirationDate
   }
   class ItemName {
     String itemName
   }
-  class ExpiredDate {
-    LocalDateTime expiredDate
+  class ExpirationDate {
+    LocalDateTime expirationDate
   }
 }
 StoredItem o-- StoredItemIdentifier
 StoredItem o-- ItemDetail
 ItemDetail o-- ItemName
 ItemDetail o-- ItemType
-ItemDetail o-- ExpiredDate
+ItemDetail o-- ExpirationDate
 ItemType o-- AlertDefinition
 @enduml

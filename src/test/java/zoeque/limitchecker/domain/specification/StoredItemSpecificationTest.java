@@ -38,11 +38,16 @@ public class StoredItemSpecificationTest {
     String name = "test";
     StoredItem storedItem = factory.createStoredItem(factory.createItemDetail(name, ItemTypeModel.EGG, LocalDateTime.now().plusDays(2)).get(),
             AlertStatusFlag.NOT_REPORTED);
+    StoredItem storedItemNotToFind = factory.createStoredItem(factory.createItemDetail(name, ItemTypeModel.EGG, LocalDateTime.now().plusDays(2)).get(),
+            AlertStatusFlag.REPORTED);
     repository.save(storedItem);
+    repository.save(storedItemNotToFind);
     List<StoredItem> items = repository.findAll(
             specification.warnedItem(ItemTypeModel.EGG));
+    List<StoredItem> allItems = repository.findAll();
 
     Assertions.assertEquals(1, items.size());
+    Assertions.assertEquals(2, allItems.size());
   }
 
   @Test
