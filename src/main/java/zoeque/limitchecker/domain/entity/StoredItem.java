@@ -2,12 +2,10 @@ package zoeque.limitchecker.domain.entity;
 
 import io.vavr.control.Try;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import zoeque.limitchecker.domain.entity.valueobject.ItemDetail;
-import zoeque.limitchecker.domain.entity.valueobject.StoredItemIdentifier;
 import zoeque.limitchecker.domain.model.AlertStatusFlag;
 
 /**

@@ -1,7 +1,6 @@
 package zoeque.limitchecker.application.dto.record;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.Getter;
 import zoeque.limitchecker.adapter.StoredItemController;
 
 /**
@@ -9,12 +8,14 @@ import zoeque.limitchecker.adapter.StoredItemController;
  * This class is given by POST request received
  * {@link StoredItemController}.
  *
- * @param itemName the name of stored item.
- * @param itemType the selected item type.
- * @param expiredDate the selected expired date.
+ * @param storedItemIdentifier the identifier for each stored items.
+ * @param itemName             the name of stored item.
+ * @param itemType             the selected item type.
+ * @param expiredDate          the selected expired date.
  */
 @JsonDeserialize(as = StoredItemJsonDto.class)
 public record StoredItemJsonDto(
+        Long storedItemIdentifier,
         String itemName,
         String itemType,
         String expiredDate) {

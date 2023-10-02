@@ -1,4 +1,4 @@
-package zoeque.limitchecker.application.service.checker;
+package zoeque.limitchecker.application.service.schedule;
 
 import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +17,11 @@ import zoeque.limitchecker.domain.specification.StoredItemSpecification;
  */
 @Slf4j
 @Service
-public class StoredItemCheckerService
+public class StoredItemScheduledService
         extends AbstractStoredItemService {
-  public StoredItemCheckerService(IStoredItemRepository repository,
-                                  StoredItemSpecification<StoredItem> specification,
-                                  ApplicationEventPublisher publisher) {
+  public StoredItemScheduledService(IStoredItemRepository repository,
+                                    StoredItemSpecification<StoredItem> specification,
+                                    ApplicationEventPublisher publisher) {
     super(repository, specification, publisher);
   }
 

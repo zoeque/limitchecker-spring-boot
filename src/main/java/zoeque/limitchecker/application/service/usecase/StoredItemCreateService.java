@@ -67,7 +67,8 @@ public class StoredItemCreateService {
       List<StoredItemJsonDto> jsonList = new ArrayList<>();
       for (StoredItem item : itemList) {
         StoredItemJsonDto json
-                = new StoredItemJsonDto(item.getItemDetail().getItemName().getName(),
+                = new StoredItemJsonDto(item.getIdentifier(),
+                item.getItemDetail().getItemName().getName(),
                 item.getItemDetail().getItemType().getModel().getLabel(),
                 convertLocalDateTimeToString(
                         item.getItemDetail().getExpirationDate().getDate()));

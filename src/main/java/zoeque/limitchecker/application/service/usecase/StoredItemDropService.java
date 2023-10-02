@@ -2,10 +2,12 @@ package zoeque.limitchecker.application.service.usecase;
 
 import io.vavr.control.Try;
 import java.util.List;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import zoeque.limitchecker.adapter.StoredItemController;
 import zoeque.limitchecker.application.event.StoredItemDropRequest;
 import zoeque.limitchecker.configuration.ConstantModel;
 import zoeque.limitchecker.domain.entity.StoredItem;
@@ -40,6 +42,27 @@ public class StoredItemDropService extends AbstractStoredItemService {
       log.warn("Exception is occurred in deletion process!! : {}",
               e.getCause().toString());
       throw new IllegalStateException(e);
+    }
+  }
+
+  /**
+   * The deletion process requested from {@link StoredItemController}.
+   *
+   * @param id ID for {@link StoredItem}. The ID is received from REST request.
+   * @return {@link Try} with ID of deleted item or some exception.
+   */
+  public Try<Long> dropRequestedStoredItem(Long id) {
+    try {
+      Optional<StoredItem> byIdentifier = repository.findByIdentifier(id);
+      if (byIdentifier.isEmpty()) {
+        log.warn("There is no StoredItem with ID : {}", id);
+        return Try.failure(new IllegalArgumentException("There is no requested StoredItem in DB"));
+      }
+      repository.delete(byIdentifier.get());
+      return Try.success(id);
+    } catch (Exception e) {
+      log.warn("Unexpected exception occurred in deletion process : {}", e.getCause());
+      return Try.failure(e);
     }
   }
 }
