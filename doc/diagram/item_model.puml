@@ -3,6 +3,8 @@ package StoredItemAggregatePattern {
   class StoredItem{
     StoredItemIdentifier identifier
     ItemDetail itemDetail
+    AlertStatusFlag alertStatusFlag
+    + changeItemStatus(AlertStatusFlag)
   }
   class StoredItemIdentifier {
     String identifier
