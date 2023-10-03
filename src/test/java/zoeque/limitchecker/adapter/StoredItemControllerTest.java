@@ -42,7 +42,7 @@ public class StoredItemControllerTest {
     String testDate = format.format(date);
 
     StoredItemJsonDto jsonDto
-            = new StoredItemJsonDto("test", "others", testDate);
+            = new StoredItemJsonDto(1000L, "test", "others", testDate);
     String json = objectMapper.writeValueAsString(jsonDto);
 
     mvc.perform(post("/create")

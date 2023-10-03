@@ -28,7 +28,7 @@ public class StoredItemCreateServiceTest {
 
   @Test
   public void createNewItem_thenReturnSuccess() {
-    StoredItemJsonDto item = new StoredItemJsonDto("test", "others", "2099/12/31");
+    StoredItemJsonDto item = new StoredItemJsonDto(1000L, "test", "others", "2099/12/31");
     Try<StoredItem> itemDtoTry = storedItemCreateService.createNewStoredItem(item);
     Assertions.assertTrue(itemDtoTry.isSuccess());
   }

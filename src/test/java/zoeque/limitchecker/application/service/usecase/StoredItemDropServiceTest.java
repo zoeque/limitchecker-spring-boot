@@ -1,4 +1,4 @@
-package zoeque.limitchecker.domain.specification;
+package zoeque.limitchecker.application.service.usecase;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,47 +18,46 @@ import zoeque.limitchecker.testtool.DatabaseDropService;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-public class StoredItemSpecificationTest {
+public class StoredItemDropServiceTest {
   @Autowired
-  DatabaseDropService databaseDropService;
+  StoredItemDropService service;
   @Autowired
   IStoredItemRepository repository;
   @Autowired
   StoredItemFactory factory;
   @Autowired
-  StoredItemSpecification specification;
+  DatabaseDropService databaseDropService;
 
   @BeforeEach
-  public void setup() {
+  public void deleteAllDataInDb() {
     databaseDropService.deleteAllData();
   }
 
   @Test
-  public void ifStoredItemWithSpecifiedConditionInDb_canFindWarnItem() {
-    String name = "test";
-    StoredItem storedItem = factory.createStoredItem(factory.createItemDetail(name, ItemTypeModel.EGG, LocalDateTime.now().plusDays(2)).get(),
-            AlertStatusFlag.NOT_REPORTED);
-    StoredItem storedItemNotToFind = factory.createStoredItem(factory.createItemDetail(name, ItemTypeModel.EGG, LocalDateTime.now().plusDays(2)).get(),
-            AlertStatusFlag.REPORTED);
-    repository.save(storedItem);
-    repository.save(storedItemNotToFind);
-    List<StoredItem> items = repository.findAll(
-            specification.warnedItem(ItemTypeModel.EGG));
-    List<StoredItem> allItems = repository.findAll();
-
-    Assertions.assertEquals(1, items.size());
-    Assertions.assertEquals(2, allItems.size());
-  }
-
-  @Test
-  public void ifStoredItemWithExpiredConditionInDb_canFindExpiredItem() {
+  public void attemptToDeleteStoredItemViaScheduledAnnotation_deleteCompletely() {
     String name = "test";
     StoredItem storedItem = factory.createStoredItem(factory.createItemDetail(name, ItemTypeModel.EGG, LocalDateTime.now().minusMinutes(1)).get(),
             AlertStatusFlag.NOT_REPORTED);
     repository.save(storedItem);
-    List<StoredItem> items = repository.findAll(
-            specification.expiredItem());
 
-    Assertions.assertEquals(1, items.size());
+    service.dropReportedStoredItem();
+
+    List<StoredItem> items = repository.findAll();
+    Assertions.assertEquals(0, items.size());
+  }
+
+  @Test
+  public void attemptToDeleteStoredItemViaRestApi_deleteCompletely() {
+    String name = "test";
+    StoredItem storedItem = factory.createStoredItem(factory.createItemDetail(name, ItemTypeModel.EGG, LocalDateTime.now().minusMinutes(1)).get(),
+            AlertStatusFlag.NOT_REPORTED);
+    repository.save(storedItem);
+    List<StoredItem> itemsBeforeDelete = repository.findAll();
+    Assertions.assertEquals(1, itemsBeforeDelete.size());
+
+    long identifier = storedItem.getIdentifier();
+    service.dropRequestedStoredItem(identifier);
+    List<StoredItem> itemsAfterDelete = repository.findAll();
+    Assertions.assertEquals(0, itemsAfterDelete.size());
   }
 }
