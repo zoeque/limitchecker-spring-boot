@@ -43,7 +43,7 @@ public class StoredItemSpecificationTest {
     repository.save(storedItem);
     repository.save(storedItemNotToFind);
     List<StoredItem> items = repository.findAll(
-            specification.warnedItem(ItemTypeModel.EGG));
+            specification.warnedStandardItem(ItemTypeModel.EGG));
     List<StoredItem> allItems = repository.findAll();
 
     Assertions.assertEquals(1, items.size());

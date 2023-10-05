@@ -76,7 +76,7 @@ public class StoredItemSpecification<StoredItem> {
    * @param model The target {@link ItemTypeModel} to validate.
    * @return {@link StoredItem} with full specified the condition.
    */
-  public Specification<StoredItem> warnedItem(ItemTypeModel model) {
+  public Specification<StoredItem> warnedStandardItem(ItemTypeModel model) {
     return new Specification<StoredItem>() {
       @Override
       public Predicate toPredicate(Root<StoredItem> root, CriteriaQuery<?> query,
@@ -88,6 +88,39 @@ public class StoredItemSpecification<StoredItem> {
                         .get(ItemDetail_.EXPIRATION_DATE)
                         .get(ExpirationDate_.DATE),
                 LocalDateTime.now().minusDays(model.getExpirationDate())));
+        // AND alert_status_flag = NOT_REPORTED (not to include reported items)
+        predicates.add(criteriaBuilder.equal(root.get(StoredItem_.ALERT_STATUS_FLAG),
+                AlertStatusFlag.NOT_REPORTED));
+        // AND item_type = :model
+        predicates.add(criteriaBuilder.equal(root.get(StoredItem_.ITEM_DETAIL)
+                .get(ItemDetail_.ITEM_TYPE).get(ItemType_.MODEL), model));
+        return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+      }
+    };
+  }
+
+  /**
+   * Find the item that has specified the condition,
+   * Today  > (Created date) + (expiration date)/2.
+   * Items are returned as warned items.
+   * This method does not find the item which has an REPORTED state
+   * of {@link AlertStatusFlag}.
+   *
+   * @param model The target {@link ItemTypeModel} to validate.
+   * @return {@link StoredItem} with full specified the condition.
+   */
+  public Specification<StoredItem> warnedFreshItem(ItemTypeModel model) {
+    return new Specification<StoredItem>() {
+      @Override
+      public Predicate toPredicate(Root<StoredItem> root, CriteriaQuery<?> query,
+                                   CriteriaBuilder criteriaBuilder) {
+        List<Predicate> predicates = new ArrayList<>();
+
+        // WHERE :today > (Created date) + (expiration date)/2.
+        predicates.add(criteriaBuilder.lessThan(root.get(StoredItem_.ITEM_DETAIL)
+                        .get(ItemDetail_.EXPIRATION_DATE)
+                        .get(ExpirationDate_.DATE),
+                LocalDateTime.now().minusDays(model.getExpirationDate() / 2)));
         // AND alert_status_flag = NOT_REPORTED (not to include reported items)
         predicates.add(criteriaBuilder.equal(root.get(StoredItem_.ALERT_STATUS_FLAG),
                 AlertStatusFlag.NOT_REPORTED));

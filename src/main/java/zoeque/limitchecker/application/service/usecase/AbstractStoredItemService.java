@@ -61,7 +61,7 @@ public abstract class AbstractStoredItemService {
   }
 
   /**
-   * Find the warned item and collect all items in the same list.
+   * Find the warned item and collect all standard items in the same list.
    *
    * @return all warned items with result {@link Try}.
    */
@@ -70,11 +70,16 @@ public abstract class AbstractStoredItemService {
       List<StoredItem> warnedItemList = new ArrayList<>();
       // validate all type of the item
       for (ItemTypeModel model : ItemTypeModel.values()) {
-        List<StoredItem> itemList
-                = repository.findAll(specification.warnedItem(model));
-        if (!itemList.isEmpty()) {
-          // add item to list for notification if the warned item exists
-          warnedItemList.addAll(itemList);
+        // Add only items with expiration date
+        if (model.getHasExpirationDate()) {
+          List<StoredItem> itemList
+                  = repository.findAll(specification.warnedStandardItem(model));
+          if (!itemList.isEmpty()) {
+            // add item to list for notification if the warned item exists
+            warnedItemList.addAll(itemList);
+          }
+        }else{
+
         }
       }
       return Try.success(warnedItemList);
