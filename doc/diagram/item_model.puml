@@ -19,14 +19,8 @@ package StoredItemAggregatePattern {
     ItemTypeModel itemTypeModel
     AlertDefinition alertDefinition
   }
-  class ItemTypeModel {
-    ItemModel model
+  enum ItemTypeModel {
   }
-  enum FreshItemModel {
-    MEAT
-    VEGETABLE
-  }
-  enum StandardItemModel
 
   class AlertDefinition {
     Integer expirationDate
@@ -44,8 +38,6 @@ ItemDetail o-- ItemName
 ItemDetail o-- ItemType
 ItemDetail o-- ExpirationDate
 ItemType o-- AlertDefinition
-ItemType o-- ItemTypeModel
-ItemTypeModel --> FreshItemModel
-ItemTypeModel --> StandardItemModel
+ItemType --> ItemTypeModel
 
 @enduml
