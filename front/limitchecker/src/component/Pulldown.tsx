@@ -16,6 +16,8 @@ function Pulldown({ onRowSelect }: PulldownProps) {
 
     // The dropdown values used in ItemType
     const options: Option[] = [
+        { value: 'vegetable', label: '野菜' },
+        { value: 'fruit', label: '果物' },
         { value: 'spice', label: '調味料' },
         { value: 'egg', label: '卵' },
         { value: 'meat', label: '肉類' },
