@@ -20,6 +20,7 @@ import zoeque.limitchecker.domain.model.AlertStatusFlag;
 @Table(name = "stored_item")
 public class StoredItem {
   @Id
+  @Getter
   @GeneratedValue(strategy = GenerationType.AUTO)
   long identifier;
   @Embedded

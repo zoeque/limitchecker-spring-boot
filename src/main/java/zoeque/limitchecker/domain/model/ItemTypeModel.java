@@ -6,10 +6,9 @@ import lombok.Getter;
  * Define item type
  */
 public enum ItemTypeModel {
-  VEGETABLE("vegetable", 3, "野菜", false),
+  VEGETABLE("vegetable", 4, "野菜", false),
   FRUIT("fruit", 6, "果物", false),
   MEAT("meat", 1, "肉類", true),
-
   SPICE("spice", 30, "調味料", true),
   EGG("egg", 3, "卵", true),
   JUICE("juice", 3, "飲料", true),
