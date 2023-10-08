@@ -43,11 +43,22 @@ public class StoredItemCreateService {
    */
   public Try<StoredItem> createNewStoredItem(StoredItemJsonDto jsonDto) {
     try {
-      StoredItem storedItem = factory.createStoredItem(
-              factory.createItemDetail(jsonDto.itemName(),
-                      convertItemTypeModelByValue(jsonDto.itemType()),
-                      convertStringDateToLocalDateTime(jsonDto.expiredDate())).get(),
-              AlertStatusFlag.NOT_REPORTED);
+      ItemTypeModel model = convertItemTypeModelByValue(jsonDto.itemType());
+      StoredItem storedItem;
+      if (model.getHasExpirationDate()) {
+        storedItem = factory.createStoredItem(
+                factory.createItemDetail(jsonDto.itemName(),
+                        model,
+                        convertStringDateToLocalDateTime(jsonDto.expiredDate())).get(),
+                AlertStatusFlag.NOT_REPORTED);
+      } else {
+        // Fresh item must have the expired date as today
+        storedItem = factory.createStoredItem(
+                factory.createItemDetail(jsonDto.itemName(),
+                        model,
+                        LocalDateTime.now()).get(),
+                AlertStatusFlag.NOT_REPORTED);
+      }
       repository.save(storedItem);
       return Try.success(storedItem);
     } catch (Exception e) {
