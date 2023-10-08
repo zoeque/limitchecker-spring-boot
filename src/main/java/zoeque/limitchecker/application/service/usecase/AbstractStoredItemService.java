@@ -61,7 +61,7 @@ public abstract class AbstractStoredItemService {
   }
 
   /**
-   * Find the warned item and collect all items in the same list.
+   * Find the warned item and collect all standard items in the same list.
    *
    * @return all warned items with result {@link Try}.
    */
@@ -70,11 +70,21 @@ public abstract class AbstractStoredItemService {
       List<StoredItem> warnedItemList = new ArrayList<>();
       // validate all type of the item
       for (ItemTypeModel model : ItemTypeModel.values()) {
-        List<StoredItem> itemList
-                = repository.findAll(specification.warnedItem(model));
-        if (!itemList.isEmpty()) {
-          // add item to list for notification if the warned item exists
-          warnedItemList.addAll(itemList);
+        // Add only items with expiration date
+        if (model.getHasExpirationDate()) {
+          List<StoredItem> standardItemList
+                  = repository.findAll(specification.warnedStandardItem(model));
+          if (!standardItemList.isEmpty()) {
+            // add item to list for notification if the warned item exists
+            warnedItemList.addAll(standardItemList);
+          }
+        } else {
+          // Add fresh items in a warned item list.
+          List<StoredItem> freshItemList
+                  = repository.findAll(specification.warnedFreshItem(model));
+          if (!freshItemList.isEmpty()) {
+            warnedItemList.addAll(freshItemList);
+          }
         }
       }
       return Try.success(warnedItemList);
@@ -91,7 +101,17 @@ public abstract class AbstractStoredItemService {
    */
   protected Try<List<StoredItem>> findExpiredItem() {
     try {
-      return Try.success(repository.findAll(specification.expiredItem()));
+      List<StoredItem> expiredItemList = new ArrayList<>();
+      for (ItemTypeModel model : ItemTypeModel.values()) {
+        if (model.getHasExpirationDate()) {
+          expiredItemList.addAll(
+                  repository.findAll(specification.expiredStandardItemByItemType(model)));
+        } else {
+          expiredItemList.addAll(
+                  repository.findAll(specification.expiredFreshItemByItemType(model)));
+        }
+      }
+      return Try.success(expiredItemList);
     } catch (Exception e) {
       log.warn("Cannot access to the database!");
       return Try.failure(e);

@@ -27,18 +27,56 @@ import zoeque.limitchecker.domain.repository.IStoredItemRepository;
 @Component
 public class StoredItemSpecification<StoredItem> {
   /**
-   * Find the items that has been expired.
+   * Find the standard items, which has an expired date, that has been expired.
    * Items are returned as Expired items and must be notified to the user.
    *
+   * @param model {@link ItemTypeModel} with the definition for item attribute.
    * @return {@link StoredItem} with an expired date
    */
-  public Specification<StoredItem> expiredItem() {
-    return ((root, query, criteriaBuilder) -> {
-      return criteriaBuilder.lessThan(
-              root.get(StoredItem_.ITEM_DETAIL)
-                      .get(ItemDetail_.EXPIRATION_DATE).get(ExpirationDate_.DATE),
-              LocalDateTime.now());
-    });
+  public Specification<StoredItem> expiredStandardItemByItemType(ItemTypeModel model) {
+    return new Specification<StoredItem>() {
+      @Override
+      public Predicate toPredicate(Root<StoredItem> root, CriteriaQuery<?> query,
+                                   CriteriaBuilder criteriaBuilder) {
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(criteriaBuilder.lessThan(
+                root.get(StoredItem_.ITEM_DETAIL)
+                        .get(ItemDetail_.EXPIRATION_DATE).get(ExpirationDate_.DATE),
+                LocalDateTime.now()));
+        predicates.add(criteriaBuilder.equal(root.get(StoredItem_.ITEM_DETAIL)
+                .get(ItemDetail_.ITEM_TYPE).get(ItemType_.MODEL), model));
+        return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+      }
+    };
+  }
+
+  /**
+   * Find the items, which has no expired date, that has been expired.
+   * Items are returned as Expired items and must be notified to the user.
+   *
+   * @param model {@link ItemTypeModel} with the expiration definition.
+   * @return {@link StoredItem} with an expired date
+   */
+  public Specification<StoredItem> expiredFreshItemByItemType(ItemTypeModel model) {
+    return new Specification<StoredItem>() {
+      @Override
+      public Predicate toPredicate(Root<StoredItem> root, CriteriaQuery<?> query,
+                                   CriteriaBuilder criteriaBuilder) {
+        List<Predicate> predicates = new ArrayList<>();
+
+        // :warnedDate = :today - (expiration date)/2
+        LocalDateTime expirationDate = LocalDateTime.now().minusDays(model.getExpirationDate());
+
+        // WHERE :createdDate < :expirationDate
+        predicates.add(criteriaBuilder.lessThan(root.get(StoredItem_.ITEM_DETAIL)
+                .get(ItemDetail_.EXPIRATION_DATE)
+                .get(ExpirationDate_.DATE), expirationDate));
+        // AND item_type = :model
+        predicates.add(criteriaBuilder.equal(root.get(StoredItem_.ITEM_DETAIL)
+                .get(ItemDetail_.ITEM_TYPE).get(ItemType_.MODEL), model));
+        return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+      }
+    };
   }
 
   /**
@@ -68,7 +106,7 @@ public class StoredItemSpecification<StoredItem> {
 
   /**
    * Find the item that has specified the condition,
-   * (expiration date) > Today - (alert definition date).
+   * (expiration date)/2 > Today - (alert definition date).
    * Items are returned as warned items.
    * This method does not find the item which has an REPORTED state
    * of {@link AlertStatusFlag}.
@@ -76,7 +114,7 @@ public class StoredItemSpecification<StoredItem> {
    * @param model The target {@link ItemTypeModel} to validate.
    * @return {@link StoredItem} with full specified the condition.
    */
-  public Specification<StoredItem> warnedItem(ItemTypeModel model) {
+  public Specification<StoredItem> warnedStandardItem(ItemTypeModel model) {
     return new Specification<StoredItem>() {
       @Override
       public Predicate toPredicate(Root<StoredItem> root, CriteriaQuery<?> query,
@@ -88,6 +126,41 @@ public class StoredItemSpecification<StoredItem> {
                         .get(ItemDetail_.EXPIRATION_DATE)
                         .get(ExpirationDate_.DATE),
                 LocalDateTime.now().minusDays(model.getExpirationDate())));
+        // AND alert_status_flag = NOT_REPORTED (not to include reported items)
+        predicates.add(criteriaBuilder.equal(root.get(StoredItem_.ALERT_STATUS_FLAG),
+                AlertStatusFlag.NOT_REPORTED));
+        // AND item_type = :model
+        predicates.add(criteriaBuilder.equal(root.get(StoredItem_.ITEM_DETAIL)
+                .get(ItemDetail_.ITEM_TYPE).get(ItemType_.MODEL), model));
+        return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+      }
+    };
+  }
+
+  /**
+   * Find the item that has specified the condition,
+   * Today  > (Created date) + (expiration date)/2.
+   * Items are returned as warned items.
+   * This method does not find the item which has an REPORTED state
+   * of {@link AlertStatusFlag}.
+   *
+   * @param model The target {@link ItemTypeModel} to validate.
+   * @return {@link StoredItem} with full specified the condition.
+   */
+  public Specification<StoredItem> warnedFreshItem(ItemTypeModel model) {
+    return new Specification<StoredItem>() {
+      @Override
+      public Predicate toPredicate(Root<StoredItem> root, CriteriaQuery<?> query,
+                                   CriteriaBuilder criteriaBuilder) {
+        List<Predicate> predicates = new ArrayList<>();
+
+        // :warnedDate = :today - (expiration date)/2
+        LocalDateTime warnedDate = LocalDateTime.now().minusDays(model.getExpirationDate() / 2);
+
+        // WHERE :createdDate < :warnedDate
+        predicates.add(criteriaBuilder.lessThan(root.get(StoredItem_.ITEM_DETAIL)
+                .get(ItemDetail_.EXPIRATION_DATE)
+                .get(ExpirationDate_.DATE), warnedDate));
         // AND alert_status_flag = NOT_REPORTED (not to include reported items)
         predicates.add(criteriaBuilder.equal(root.get(StoredItem_.ALERT_STATUS_FLAG),
                 AlertStatusFlag.NOT_REPORTED));

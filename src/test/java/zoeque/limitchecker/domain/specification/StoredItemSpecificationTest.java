@@ -43,7 +43,7 @@ public class StoredItemSpecificationTest {
     repository.save(storedItem);
     repository.save(storedItemNotToFind);
     List<StoredItem> items = repository.findAll(
-            specification.warnedItem(ItemTypeModel.EGG));
+            specification.warnedStandardItem(ItemTypeModel.EGG));
     List<StoredItem> allItems = repository.findAll();
 
     Assertions.assertEquals(1, items.size());
@@ -57,8 +57,46 @@ public class StoredItemSpecificationTest {
             AlertStatusFlag.NOT_REPORTED);
     repository.save(storedItem);
     List<StoredItem> items = repository.findAll(
-            specification.expiredItem());
+            specification.expiredStandardItemByItemType(ItemTypeModel.EGG));
 
     Assertions.assertEquals(1, items.size());
+  }
+
+  @Test
+  public void saveTwoItem_whenTheOneItemHasWarnedDefinition_ReturnOneItem() {
+    String name = "test";
+    StoredItem expiredItem = factory.createStoredItem(factory.createItemDetail(name,
+                    ItemTypeModel.VEGETABLE, LocalDateTime.now().minusDays(4)).get(),
+            AlertStatusFlag.NOT_REPORTED);
+    StoredItem freshItem = factory.createStoredItem(factory.createItemDetail(name,
+                    ItemTypeModel.VEGETABLE, LocalDateTime.now().minusDays(1)).get(),
+            AlertStatusFlag.NOT_REPORTED);
+    repository.save(expiredItem);
+    repository.save(freshItem);
+    List<StoredItem> allExpiredItems
+            = repository.findAll(specification.warnedFreshItem(ItemTypeModel.VEGETABLE));
+    List<StoredItem> allItems = repository.findAll();
+    Assertions.assertEquals(1, allExpiredItems.size());
+    Assertions.assertEquals(2, allItems.size());
+  }
+
+  @Test
+  public void saveTwoItem_whenTheOneItemExpiredOverThanDefinition_ReturnOneItem() {
+    String name = "test";
+    StoredItem expiredItem = factory.createStoredItem(factory.createItemDetail(name,
+                    ItemTypeModel.VEGETABLE, LocalDateTime.now().minusDays(
+                            ItemTypeModel.VEGETABLE.getExpirationDate() + 1)).get(),
+            AlertStatusFlag.NOT_REPORTED);
+    StoredItem freshItem = factory.createStoredItem(factory.createItemDetail(name,
+                    ItemTypeModel.VEGETABLE, LocalDateTime.now().minusDays(
+                            ItemTypeModel.VEGETABLE.getExpirationDate() - 1)).get(),
+            AlertStatusFlag.NOT_REPORTED);
+    repository.save(expiredItem);
+    repository.save(freshItem);
+    List<StoredItem> allExpiredItems
+            = repository.findAll(specification.expiredFreshItemByItemType(ItemTypeModel.VEGETABLE));
+    List<StoredItem> allItems = repository.findAll();
+    Assertions.assertEquals(1, allExpiredItems.size());
+    Assertions.assertEquals(2, allItems.size());
   }
 }
