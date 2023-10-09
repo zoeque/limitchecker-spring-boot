@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './components.css'
 import '../controller/StoredItemController'
 
-function CreateButton({ itemName, itemType, expiredDate, sendPostRequest }) {
+function CreateButton({ 
+    itemName, itemType, expiredDate, sendPostRequest 
+}:{
+    itemName: string;
+    itemType: string;
+    expiredDate: string;
+    sendPostRequest: (itemName: string, itemType: string, expiredDate: string) => void;
+}) {
 
     const [message, setMessage] = useState('');
     const validateInputName = (itemName: string) => {
