@@ -8,7 +8,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import zoeque.limitchecker.adapter.StoredItemController;
-import zoeque.limitchecker.application.event.StoredItemDropRequest;
 import zoeque.limitchecker.configuration.ConstantModel;
 import zoeque.limitchecker.domain.entity.StoredItem;
 import zoeque.limitchecker.domain.repository.IStoredItemRepository;
@@ -35,7 +34,7 @@ public class StoredItemDropService extends AbstractStoredItemService {
   public void dropReportedStoredItem() {
     try {
       log.info("Clean up the stored item records that already reported.");
-      Try<List<StoredItem>> expiredItem = findExpiredItem();
+      Try<List<StoredItem>> expiredItem = findItemsToDrop();
       repository.deleteAll(expiredItem.get());
       log.info("Delete all reported items.");
     } catch (Exception e) {

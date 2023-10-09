@@ -130,6 +130,20 @@ public abstract class AbstractStoredItemService {
     }
   }
 
+  /**
+   * Find items that are already reported and needed to delete.
+   *
+   * @return The list of {@link StoredItem}.
+   */
+  protected Try<List<StoredItem>> findItemsToDrop() {
+    try {
+      List<StoredItem> items = repository.findAll(specification.itemToDrop());
+      return Try.success(items);
+    } catch (Exception e) {
+      return Try.failure(e);
+    }
+  }
+
   protected Try<List<StoredItemDto>> convertEntityToDto(List<StoredItem> entityList) {
     try {
       List<StoredItemDto> dtoList = new ArrayList<>();
