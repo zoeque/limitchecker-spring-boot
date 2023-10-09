@@ -12,7 +12,9 @@ import zoeque.limitchecker.application.dto.record.StoredItemDto;
 import zoeque.limitchecker.application.event.MailNotificationEvent;
 import zoeque.limitchecker.application.service.mailer.AbstractMailSenderService;
 import zoeque.limitchecker.domain.entity.StoredItem;
+import zoeque.limitchecker.domain.model.AlertStatusFlag;
 import zoeque.limitchecker.domain.model.ItemTypeModel;
+import zoeque.limitchecker.domain.model.NotifyTypeModel;
 import zoeque.limitchecker.domain.repository.IStoredItemRepository;
 import zoeque.limitchecker.domain.specification.StoredItemSpecification;
 
@@ -53,11 +55,21 @@ public abstract class AbstractStoredItemService {
 
     // publish the event to the mailer service
     if (!warnedItemTry.get().isEmpty()) {
-      publisher.publishEvent(convertEntityToDto(warnedItemTry.get()).get());
+      publisher.publishEvent(
+              new MailNotificationEvent(convertEntityToDto(warnedItemTry.get()).get(),
+                      NotifyTypeModel.WARN));
     }
-    if (!expiredItemTry.get().isEmpty()) {
-      publisher.publishEvent(convertEntityToDto(expiredItemTry.get()).get());
+    List<StoredItem> expiredItemList = expiredItemTry.get();
+    if (!expiredItemList.isEmpty()) {
+      publisher.publishEvent(
+              new MailNotificationEvent(convertEntityToDto(expiredItemList).get(),
+                      NotifyTypeModel.ALERT));
     }
+    expiredItemList.forEach(item -> {
+      Try<StoredItem> handledItemTry
+              = item.changeItemStatus(AlertStatusFlag.REPORTED);
+      repository.save(handledItemTry.get());
+    });
   }
 
   /**
@@ -114,6 +126,20 @@ public abstract class AbstractStoredItemService {
       return Try.success(expiredItemList);
     } catch (Exception e) {
       log.warn("Cannot access to the database!");
+      return Try.failure(e);
+    }
+  }
+
+  /**
+   * Find items that are already reported and needed to delete.
+   *
+   * @return The list of {@link StoredItem}.
+   */
+  protected Try<List<StoredItem>> findItemsToDrop() {
+    try {
+      List<StoredItem> items = repository.findAll(specification.itemToDrop());
+      return Try.success(items);
+    } catch (Exception e) {
       return Try.failure(e);
     }
   }
