@@ -46,11 +46,11 @@ export const StoredItemList: FC = () => {
       <h2>一覧表示</h2>
       <Link to="/">戻る</Link>
       <div onLoad={fetchStoredItem}>
-        <table>
+        <table className="table">
           <tr>
-            <td>品名</td>
-            <td>種目</td>
-            <td>消費期限</td>
+            <th>品名</th>
+            <th>種目</th>
+            <th>消費期限</th>
           </tr>
           {item.map((storedItem) => (
             <tr>

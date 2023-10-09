@@ -13,7 +13,7 @@ The alert email notifies the expiration date has passed. Specifically, the Servi
 
 ## User Interface
 The application provides the registration screen and a list view with all saved data in DB.  
-**TBD** other functions.
+![](./doc/images/user-interface.png)
 
 ## Controller
 The interface of the visible process and the back-end process handles the REST API with full specified messages.  
