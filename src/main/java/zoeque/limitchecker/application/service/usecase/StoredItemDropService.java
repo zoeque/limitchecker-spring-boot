@@ -28,7 +28,7 @@ public class StoredItemDropService extends AbstractStoredItemService {
 
   /**
    * The deletion process for reported {@link StoredItem} via
-   * {@link StoredItemDropRequest}.
+   * Scheduled annotation.
    * The process is triggered by the Scheduled API in Spring boot.
    */
   @Scheduled(cron = ConstantModel.CRON_FOR_DELETION)

@@ -2,6 +2,7 @@ package zoeque.limitchecker.application.service.mailer;
 
 import io.micrometer.common.util.StringUtils;
 import io.vavr.control.Try;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
