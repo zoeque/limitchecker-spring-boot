@@ -37,7 +37,7 @@ public class StoredItemDropServiceTest {
   public void attemptToDeleteStoredItemViaScheduledAnnotation_deleteCompletely() {
     String name = "test";
     StoredItem storedItem = factory.createStoredItem(factory.createItemDetail(name, ItemTypeModel.EGG, LocalDateTime.now().minusMinutes(1)).get(),
-            AlertStatusFlag.NOT_REPORTED);
+            AlertStatusFlag.REPORTED);
     repository.save(storedItem);
 
     service.dropReportedStoredItem();
