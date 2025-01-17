@@ -1,22 +1,24 @@
 package zoeque.limitchecker.application.service.mailer;
 
-import com.google.api.client.auth.oauth2.Credential;
 import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import zoeque.limitchecker.configuration.mail.MailServiceCollector;
 import zoeque.limitchecker.domain.model.MailService;
 import zoeque.limitchecker.domain.model.MailServiceProviderModel;
 
+/**
+ * The mail sender service for Gmail.
+ */
 @Slf4j
 @Service
 @MailService(MailServiceProviderModel.GMAIL)
 public class GmailSenderService extends AbstractMailSenderService {
   private MailSender sender;
+
   public GmailSenderService(@Value("${zoeque.limitchecker.mail.address.to:null}")
                             String toMailAddress,
                             @Value("${zoeque.limitchecker.mail.address.from:null}")
@@ -29,6 +31,13 @@ public class GmailSenderService extends AbstractMailSenderService {
     this.sender = sender;
   }
 
+  /**
+   * Send mail to defined user.
+   *
+   * @param subject
+   * @param messageContent
+   * @return
+   */
   @Override
   public Try<String> sendMailToUser(String subject, String messageContent) {
     try {

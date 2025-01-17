@@ -2,10 +2,13 @@ package zoeque.limitchecker.domain.entity.factory;
 
 import io.vavr.control.Try;
 import java.time.LocalDateTime;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import zoeque.limitchecker.domain.entity.StoredItem;
-import zoeque.limitchecker.domain.entity.valueobject.*;
+import zoeque.limitchecker.domain.entity.valueobject.AlertDefinition;
+import zoeque.limitchecker.domain.entity.valueobject.ExpirationDate;
+import zoeque.limitchecker.domain.entity.valueobject.ItemDetail;
+import zoeque.limitchecker.domain.entity.valueobject.ItemName;
+import zoeque.limitchecker.domain.entity.valueobject.ItemType;
 import zoeque.limitchecker.domain.model.AlertStatusFlag;
 import zoeque.limitchecker.domain.model.ItemTypeModel;
 
@@ -39,6 +42,12 @@ public abstract class AbstractStoredItemFactory {
     }
   }
 
+  /**
+   * Create new {@link ItemName} instance
+   *
+   * @param name the name of the item
+   * @return Result {@link Try} with the created instance or the exception.
+   */
   private Try<ItemName> createItemName(String name) {
     try {
       return Try.success(new ItemName(name));
