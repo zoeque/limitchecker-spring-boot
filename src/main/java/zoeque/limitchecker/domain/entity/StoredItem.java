@@ -1,7 +1,14 @@
 package zoeque.limitchecker.domain.entity;
 
 import io.vavr.control.Try;
-import jakarta.persistence.*;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,12 +35,23 @@ public class StoredItem {
   @Enumerated(EnumType.STRING)
   AlertStatusFlag alertStatusFlag;
 
+  /**
+   * Constructor
+   *
+   * @param itemDetail      The detail of the item
+   * @param alertStatusFlag The status of the alert
+   */
   public StoredItem(ItemDetail itemDetail,
                     AlertStatusFlag alertStatusFlag) {
     setItemDetail(itemDetail);
     setAlertStatusFlag(alertStatusFlag);
   }
 
+  /**
+   * Set the item detail
+   *
+   * @param itemDetail The detail of the item
+   */
   private void setItemDetail(ItemDetail itemDetail) {
     if (itemDetail == null) {
       throw new IllegalArgumentException("Item detail must not be null");
@@ -41,6 +59,11 @@ public class StoredItem {
     this.itemDetail = itemDetail;
   }
 
+  /**
+   * Set the alert status flag
+   *
+   * @param alertStatusFlag The status of the alert
+   */
   private void setAlertStatusFlag(AlertStatusFlag alertStatusFlag) {
     if (alertStatusFlag == null) {
       throw new IllegalArgumentException("Alert status flag must not be null");

@@ -144,6 +144,12 @@ public abstract class AbstractStoredItemService {
     }
   }
 
+  /**
+   * Convert {@link StoredItem} to {@link StoredItemDto}.
+   *
+   * @param entityList The list of {@link StoredItem}.
+   * @return The list of {@link StoredItemDto} with {@link Try}.
+   */
   protected Try<List<StoredItemDto>> convertEntityToDto(List<StoredItem> entityList) {
     try {
       List<StoredItemDto> dtoList = new ArrayList<>();

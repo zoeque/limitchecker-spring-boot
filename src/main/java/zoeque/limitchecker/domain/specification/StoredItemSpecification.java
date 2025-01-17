@@ -92,11 +92,13 @@ public class StoredItemSpecification<StoredItem> {
                                    CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = new ArrayList<>();
 
+        // WHERE expiration_date < :today
         predicates.add(criteriaBuilder.lessThan(
                 root.get(StoredItem_.ITEM_DETAIL)
                         .get(ItemDetail_.EXPIRATION_DATE).get(ExpirationDate_.DATE),
                 LocalDateTime.now()));
 
+        // AND alert_status_flag = REPORTED
         predicates.add(criteriaBuilder.equal(root.get(StoredItem_.ALERT_STATUS_FLAG),
                 AlertStatusFlag.REPORTED));
         return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

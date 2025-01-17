@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Set;
 import lombok.Getter;
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.stereotype.Component;
@@ -22,6 +21,11 @@ public class MailServiceBeanConfig {
   @Getter
   Map<MailServiceProviderModel, Class<?>> serviceMap;
 
+  /**
+   * The mapping method to collect {@link IMailService}.
+   *
+   * @param serviceSet the set of {@link IMailService}
+   */
   public void serviceMap(Set<IMailService> serviceSet) {
     serviceMap = new HashMap<>();
 
