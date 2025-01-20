@@ -8,6 +8,7 @@ const isError = (error: unknown): error is Error => {
 };
 
 interface StoredItem {
+  storedItemIdentifier: Int16Array;
   itemName: string;
   itemType: string;
   expiredDate: string;
@@ -48,12 +49,14 @@ export const StoredItemList: FC = () => {
       <div onLoad={fetchStoredItem}>
         <table className="table">
           <tr>
+            <th>ID</th>
             <th>品名</th>
             <th>種目</th>
             <th>消費期限</th>
           </tr>
           {item.map((storedItem) => (
             <tr>
+              <td>{storedItem.storedItemIdentifier}</td>
               <td>{storedItem.itemName}</td>
               <td>{storedItem.itemType}</td>
               <td>{storedItem.expiredDate}</td>
