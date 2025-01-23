@@ -89,4 +89,15 @@ public class StoredItemControllerTest {
 
     Assertions.assertEquals(0, repository.findAll().size());
   }
+
+  @Test
+  public void sendDeleteRequest_whenItemDoesNotExist_thenReturn400() throws Exception {
+    StoredItemJsonDto jsonDto
+            = new StoredItemJsonDto(1000L, "test", "others", LocalDateTime.now().toString());
+    String json = objectMapper.writeValueAsString(jsonDto);
+
+    mvc.perform(post("/drop").contentType(MediaType.APPLICATION_JSON)
+                    .content(json))
+            .andExpect(status().isBadRequest());
+  }
 }
