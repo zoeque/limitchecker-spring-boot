@@ -22,8 +22,10 @@ public class StoredItemController {
 
   StoredItemDropService dropService;
 
-  public StoredItemController(StoredItemCreateService service) {
+  public StoredItemController(StoredItemCreateService service,
+                              StoredItemDropService dropService) {
     this.service = service;
+    this.dropService = dropService;
   }
 
   /**
