@@ -56,6 +56,12 @@ export const StoredItemList: FC = () => {
           </tr>
           {item.map((storedItem) => (
             <tr>
+            <DropButton
+              storedItemIdentifier={storedItem.storedItemIdentifier}
+              itemName={storedItem.itemName}
+              itemType={storedItem.itemType}
+              expiredDate={storedItem.expiredDate}
+              sendPostRequest={sendPostRequest} />
               <td>{storedItem.storedItemIdentifier}</td>
               <td>{storedItem.itemName}</td>
               <td>{storedItem.itemType}</td>
