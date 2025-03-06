@@ -74,9 +74,9 @@ public class StoredItemControllerTest {
   public void sendDeleteRequest_thenReturn200() throws Exception {
     String name = "test";
     StoredItem item = factory.createStoredItem(factory.createItemDetail(name, ItemTypeModel.DAIRY, LocalDateTime.now()).get(), AlertStatusFlag.NOT_REPORTED);
-    Long id = item.getIdentifier();
 
     repository.save(item);
+    Long id = item.getIdentifier();
     Assertions.assertEquals(1, repository.findAll().size());
 
     StoredItemJsonDto jsonDto
