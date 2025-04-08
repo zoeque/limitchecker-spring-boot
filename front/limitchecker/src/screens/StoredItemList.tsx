@@ -3,6 +3,7 @@ import "../App.css"
 import axios from "axios";
 import { Link } from "react-router-dom";
 import DropButton from '../component/DropButton'
+import { sendDropRequest } from '../controller/StoredItemDropController';
 
 const isError = (error: unknown): error is Error => {
   return error instanceof Error;
@@ -62,7 +63,7 @@ export const StoredItemList: FC = () => {
               itemName={storedItem.itemName}
               itemType={storedItem.itemType}
               expiredDate={storedItem.expiredDate}
-              sendPostRequest={sendPostRequest} />
+              sendDropRequest={sendDropRequest} />
               <td>{storedItem.storedItemIdentifier}</td>
               <td>{storedItem.itemName}</td>
               <td>{storedItem.itemType}</td>
