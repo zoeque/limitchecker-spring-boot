@@ -22,7 +22,7 @@ function DropButton({
         }
     };
     return (
-        <div className="card">
+        <div className="dropbutton">
             <button onClick={clickButton}>
                 削除
             </button>

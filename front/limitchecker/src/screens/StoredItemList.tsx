@@ -51,6 +51,7 @@ export const StoredItemList: FC = () => {
       <div onLoad={fetchStoredItem}>
         <table className="table">
           <tr>
+            <th></th>
             <th>ID</th>
             <th>品名</th>
             <th>種目</th>
