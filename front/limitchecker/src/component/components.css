@@ -7,3 +7,8 @@
 .card {
     padding: 2em;
   }
+
+.dropbutton {
+    padding: 1em; 
+    text-align: center;
+}
