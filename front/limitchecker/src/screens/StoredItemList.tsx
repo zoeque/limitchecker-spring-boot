@@ -20,7 +20,7 @@ export const StoredItemList: FC = () => {
 
   const [item, setItem] = useState<StoredItem[]>([]);
   const [error, setError] = useState<Error | undefined>(undefined);
-
+  const [message, setMessage] = useState<string>('');
 
   if (error) {
     return <div>{error.message}</div>;
@@ -48,6 +48,7 @@ export const StoredItemList: FC = () => {
     <div>
       <h2>一覧表示</h2>
       <Link to="/">戻る</Link>
+      {message && <p>{message}</p>}
       <div onLoad={fetchStoredItem}>
         <table className="table">
           <tr>
@@ -64,7 +65,8 @@ export const StoredItemList: FC = () => {
               itemName={storedItem.itemName}
               itemType={storedItem.itemType}
               expiredDate={storedItem.expiredDate}
-              sendDropRequest={sendDropRequest} />
+              sendDropRequest={sendDropRequest}
+              setMessage={setMessage} />
               <td>{storedItem.storedItemIdentifier}</td>
               <td>{storedItem.itemName}</td>
               <td>{storedItem.itemType}</td>
