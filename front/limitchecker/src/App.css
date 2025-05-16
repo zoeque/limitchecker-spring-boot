@@ -37,6 +37,17 @@
   color: #888;
 }
 
-.table td{
-  padding: 3px 10px;
+.table {
+  width: 100%;
+  border-collapse: collapse; /* 罫線を重ねずに表示 */
+}
+
+.table th, .table td {
+  border: 1px solid #ccc; /* 罫線の色とスタイル */
+  padding: 8px; /* セル内の余白 */
+  text-align: left; /* テキストを左揃え */
+}
+
+.table th {
+  background-color: #6a6a6a; /* ヘッダーの背景色 */
 }
