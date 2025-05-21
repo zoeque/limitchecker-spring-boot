@@ -52,15 +52,18 @@ export const StoredItemList: FC = () => {
       <div onLoad={fetchStoredItem}>
         <table className="table">
           <tr>
-            <th>操作</th>
             <th>ID</th>
             <th>品名</th>
             <th>種目</th>
             <th>消費期限</th>
+            <th>操作</th>
           </tr>
           {item.map((storedItem) => (
             <tr key={storedItem.storedItemIdentifier}>
-              {/* DropButtonを<td>内に配置 */}
+              <td>{storedItem.storedItemIdentifier}</td>
+              <td>{storedItem.itemName}</td>
+              <td>{storedItem.itemType}</td>
+              <td>{storedItem.expiredDate}</td>
               <td>
                 <DropButton
                   storedItemIdentifier={storedItem.storedItemIdentifier}
@@ -71,10 +74,6 @@ export const StoredItemList: FC = () => {
                   setMessage={setMessage}
                 />
               </td>
-              <td>{storedItem.storedItemIdentifier}</td>
-              <td>{storedItem.itemName}</td>
-              <td>{storedItem.itemType}</td>
-              <td>{storedItem.expiredDate}</td>
             </tr>
           ))}
         </table>
